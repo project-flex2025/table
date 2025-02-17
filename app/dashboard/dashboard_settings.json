@@ -1,0 +1,56 @@
+{
+  "table_headers": [
+    { "id": "name", "label": "User Name" },
+    { "id": "email", "label": "Email" },
+    { "id": "role", "label": "Role" },
+    { "id": "status", "label": "Status" },
+    { "id": "actions", "label": "Actions" }
+  ],
+  "table_data": [
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "Manager",
+      "status": "Active",
+      "actions": { "edit": true, "view": true }
+    },
+    {
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "role": "Chef",
+      "status": "Active",
+      "actions": { "edit": true, "view": true }
+    },
+    {
+      "name": "Michael Brown",
+      "email": "michael@example.com",
+      "role": "Waiter",
+      "status": "Inactive",
+      "actions": { "edit": true, "view": true }
+    },
+    {
+      "name": "Emily White",
+      "email": "emily@example.com",
+      "role": "Cashier",
+      "status": "Active",
+      "actions": { "edit": true, "view": true }
+    },
+    {
+      "name": "Chris Wilson",
+      "email": "chris@example.com",
+      "role": "Delivery",
+      "status": "Active",
+      "actions": { "edit": true, "view": true }
+    },
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "Manager",
+      "status": "Active",
+      "actions": { "edit": true, "view": true }
+    }
+  ],
+  "addnewuser": true,
+  "upload": true,
+  "download": true
+}
