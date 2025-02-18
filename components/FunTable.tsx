@@ -46,7 +46,6 @@ const ReusableTable: React.FC<TableProps> = ({ config }) => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet);
-      console.log("Uploaded Data:", jsonData);
     };
     reader.readAsArrayBuffer(file);
   };

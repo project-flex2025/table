@@ -31,12 +31,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const CustomTable2 = ({  data }:any) => {
+const CustomTable2 = ({ data }:any) => {
   const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = React.useState('');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [edit, setEdit] = React.useState(false);
+   
+    
 
 
   const handleRequestSort = (property:any) => {
@@ -55,7 +57,6 @@ const CustomTable2 = ({  data }:any) => {
   };
 
   const handleActions = (data:any) => {
-    console.log(data?.edit,"handleActions ",data?.view);
     return(<Box>{data?.edit == true && <Button size='small'>Edit</Button>}
    {data?.view == true && <Button  size='small'>View</Button> } </Box>)
     
@@ -69,7 +70,7 @@ const CustomTable2 = ({  data }:any) => {
       }
       return 0;
     });
-  }, [data, order, orderBy]);
+  }, [data, order, orderBy]);  
 
   return (
     <>
@@ -90,7 +91,7 @@ const CustomTable2 = ({  data }:any) => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          {/* <TableBody>
             {sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
               <StyledTableRow key={rowIndex}>
                 {columns.map((column:any) => (
@@ -100,7 +101,7 @@ const CustomTable2 = ({  data }:any) => {
                 ))}
               </StyledTableRow>
             ))}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </TableContainer>
       <Box display="flex" justifyContent="flex-end" mt={2}>

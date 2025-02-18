@@ -9,9 +9,7 @@ const handler = NextAuth({
         username: { label: "Username", type: "text", placeholder: "Enter username" },
         password: { label: "Password", type: "password", placeholder: "Enter password" },
       },
-      async authorize(credentials) {
-        console.log(credentials,"cred");
-        
+      async authorize(credentials) {        
         try {
           const response = await fetch("http://183.82.7.208:3002/anyapp/authentication/", {
             method: "POST",
@@ -26,9 +24,7 @@ const handler = NextAuth({
             }),
           });
       
-          const data = await response.json();
-          console.log("API Response:", data);
-      
+          const data = await response.json();      
           if (!response.ok) {
             throw new Error(data.message || "Invalid credentials");
           }

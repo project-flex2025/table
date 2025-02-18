@@ -10,8 +10,8 @@ import ReusableTable from "@/components/FunTable";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
-  const [tableData, setTableData] = useState([]);
-  const router = useRouter();
+  const [tableData, setTableData] = useState(tabledata);
+  const router = useRouter();  
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -20,7 +20,6 @@ export default function Dashboard() {
   if (!session) {
     router.push("/login"); // Redirect to login if not authenticated
   }else{
-    console.log(session.user);
   }
 
   return (
@@ -29,7 +28,7 @@ export default function Dashboard() {
       {/* <button onClick={() => signOut()}>Logout</button> */}
       <CustomTable  data={tabledata} setData={setTableData} />
       {/* <CustomTable2  data={tabledata}></CustomTable2> */}
-      <ReusableTable config={tabledata} />
+      {/* <ReusableTable config={tabledata} /> */}
 
     </div>
   );

@@ -11,8 +11,9 @@ function Login() {
   const router = useRouter();
 
   if (session) {
-    console.log(session?.user);
-  }else{console.log("no session found");
+    // console.log(session?.user);
+  }else{
+    // console.log("no session found");
   }
 
   const handleSubmit = async (e: any) => {
