@@ -291,13 +291,13 @@ const CustomTable = ({ data, setData }: any) => {
   };
 
   const handleDownload = () => {
-    if (!tableData || tableData.length === 0) return;
+    if (!tableData || tableData.data.length === 0) return;
 
     // Extract headers
     const headers = ["email", "UserName", "Role", "Status"];
 
     // Extract data rows
-    const csvRows = tableData.map((record: any) => {
+    const csvRows = tableData?.data?.map((record: any) => {
       const email =
         record?.feature_data?.record_data?.find(
           (data: any) => data.record_label === "email"
