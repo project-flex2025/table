@@ -13,14 +13,14 @@ export default function Dashboard() {
   const [tableData, setTableData] = useState(tabledata);
   const router = useRouter();  
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }  
+  // if (status === "loading") {
+  //   return <p>Loading...</p>;
+  // }  
 
-  if (!session) {
-    router.push("/login"); // Redirect to login if not authenticated
-  }else{
-  }
+  // if (!session) {
+  //   router.push("/login"); // Redirect to login if not authenticated
+  // }else{
+  // }
 
   return (
     <div className="p-4">
