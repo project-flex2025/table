@@ -35,11 +35,10 @@ export default function AddUser({ open, setOpen }: any) {
       const response = await fetch("api/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          {
-            data: [
+        body: JSON.stringify({
+          data: [
             {
-              record_id: "staff_managment06",
+              record_id: "staff_managment19",
               feature_name: "Staff_managment",
               added_by: "flex_admin",
               record_status: "active",
@@ -61,10 +60,12 @@ export default function AddUser({ open, setOpen }: any) {
               },
             },
           ],
-        }
-      ),
+          dataset: "feature_data",
+          app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+        }),
       });
       const data = await response.json();
+      if (response.ok) setOpen(false);
     } catch (err) {
       // Handle error
     }

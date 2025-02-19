@@ -1,48 +1,120 @@
-[
-  {
-    "record_id": "staff_managment02",
-    "feature_name": "Staff_managment",
-    "added_by": "flex_admin",
-    "record_status": "active",
-    "created_on_date": "2025-02-18",
-    "feature_data": {
-      "record_data": [
-        {
-          "record_value_text": "rajesh@gmail.com",
-          "record_label": "email",
-          "record_type": "type_text"
-        }
-      ]
+{
+  "total_results": 16,
+  "data": [
+    {
+      "record_id": "staff_managment19",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-18",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "test02@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "test02",
+        "Role": "waiter",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
     },
-    "more_data": {
-      "UserName": "Rajesh",
-      "Role": "Manager",
-      "Status": "Active",
-      "tableheaders": ["email", "UserName", "Role", "Status"]
+    {
+      "record_id": "staff_managment20",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-18",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "eppiswaroop@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "eppit01",
+        "Role": "Manager",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
     },
-    "doc_position": 0
-  },
-  {
-    "record_id": "staff_managment04",
-    "feature_name": "Staff_managment",
-    "added_by": "flex_admin",
-    "record_status": "active",
-    "created_on_date": "2025-02-18",
-    "feature_data": {
-      "record_data": [
-        {
-          "record_value_text": "vijay@gmail.com",
-          "record_label": "email",
-          "record_type": "type_text"
-        }
-      ]
+    {
+      "record_id": "staff_managment21",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-18",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "eppiswaroop@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "eppit02",
+        "Role": "Manager",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
     },
-    "more_data": {
-      "UserName": "Vijay",
-      "Role": "Chef",
-      "Status": "Active",
-      "tableheaders": ["email", "UserName", "Role", "Status"]
+    {
+      "record_id": "staff_managment0020",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-19",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "vinayb1@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "VinayB1",
+        "Role": "Manager",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
     },
-    "doc_position": 0
-  }
-]
+    {
+      "record_id": "staff_managment0021",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-19",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "vikayb3@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "VikayB2",
+        "Role": "Manager",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
+    }
+  ]
+}
