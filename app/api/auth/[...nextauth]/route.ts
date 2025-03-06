@@ -19,7 +19,7 @@ const handler = NextAuth({
             body: JSON.stringify({
               username: credentials?.username,
               password: credentials?.password,
-              app_secret:process.env.app_secret,
+              app_secret:"38475203487kwsdjfvb1023897yfwbhekrfj",
               device_id:"device_unique_id"
             }),
           });

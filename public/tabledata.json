@@ -1,0 +1,119 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "role": "Admin",
+    "status": "Active",
+    "created_at": "2024-01-15",
+    "actions": { "edit": true, "delete": true }
+  },
+  {
+    "id": 2,
+    "name": "Bob Williams",
+    "email": "bob@example.com",
+    "role": "User",
+    "status": "Inactive",
+    "created_at": "2024-02-10",
+    "actions": { "edit": true, "delete": true }
+  },
+  {
+    "id": 3,
+    "name": "Charlie Brown",
+    "email": "charlie@example.com",
+    "role": "Manager",
+    "status": "Suspended",
+    "created_at": "2023-12-20",
+    "actions": { "edit": true, "delete": true }
+  },
+  {
+    "id": 4,
+    "name": "David Smith",
+    "email": "david@example.com",
+    "role": "User",
+    "status": "Active",
+    "created_at": "2023-11-05",
+    "actions": { "edit": true, "delete": false }
+  },
+  {
+    "id": 5,
+    "name": "Emma White",
+    "email": "emma@example.com",
+    "role": "Admin",
+    "status": "Inactive",
+    "created_at": "2024-02-25",
+    "actions": { "edit": true, "delete": false }
+  },
+  {
+    "id": 6,
+    "name": "Franklin Harris",
+    "email": "franklin@example.com",
+    "role": "Manager",
+    "status": "Active",
+    "created_at": "2023-10-12"
+  },
+  {
+    "id": 7,
+    "name": "Grace Miller",
+    "email": "grace@example.com",
+    "role": "User",
+    "status": "Suspended",
+    "created_at": "2023-09-30"
+  },
+  {
+    "id": 8,
+    "name": "Henry Clark",
+    "email": "henry@example.com",
+    "role": "Admin",
+    "status": "Active",
+    "created_at": "2024-01-05"
+  },
+  {
+    "id": 9,
+    "name": "Ivy Adams",
+    "email": "ivy@example.com",
+    "role": "Manager",
+    "status": "Inactive",
+    "created_at": "2023-08-22"
+  },
+  {
+    "id": 10,
+    "name": "Jack Roberts",
+    "email": "jack@example.com",
+    "role": "User",
+    "status": "Active",
+    "created_at": "2023-07-18"
+  },
+  {
+    "id": 11,
+    "name": "Katherine Lewis",
+    "email": "katherine@example.com",
+    "role": "Admin",
+    "status": "Suspended",
+    "created_at": "2023-06-15"
+  },
+  {
+    "id": 12,
+    "name": "Liam Walker",
+    "email": "liam@example.com",
+    "role": "Manager",
+    "status": "Active",
+    "created_at": "2023-05-20"
+  },
+  {
+    "id": 13,
+    "name": "Mia Scott",
+    "email": "mia@example.com",
+    "role": "User",
+    "status": "Inactive",
+    "created_at": "2023-04-25"
+  },
+  {
+    "id": 14,
+    "name": "Noah Parker",
+    "email": "noah@example.com",
+    "role": "Admin",
+    "status": "Active",
+    "created_at": "2023-03-10"
+  }
+]

@@ -1,8 +1,8 @@
 {
-  "total_results": 16,
+  "total_results": 15,
   "data": [
     {
-      "record_id": "staff_managment19",
+      "record_id": "staff_managment05",
       "feature_name": "Staff_managment",
       "added_by": "flex_admin",
       "record_status": "active",
@@ -12,104 +12,12 @@
           {
             "record_label": "email",
             "record_type": "type_text",
-            "record_value_text": "test02@gmail.com"
+            "record_value_text": "vinay@gmail.com"
           }
         ]
       },
       "more_data": {
-        "UserName": "test02",
-        "Role": "waiter",
-        "Status": "Active",
-        "tableheaders": ["email", "UserName", "Role", "Status"]
-      },
-      "doc_position": 0
-    },
-    {
-      "record_id": "staff_managment20",
-      "feature_name": "Staff_managment",
-      "added_by": "flex_admin",
-      "record_status": "active",
-      "created_on_date": "2025-02-18",
-      "feature_data": {
-        "record_data": [
-          {
-            "record_label": "email",
-            "record_type": "type_text",
-            "record_value_text": "eppiswaroop@gmail.com"
-          }
-        ]
-      },
-      "more_data": {
-        "UserName": "eppit01",
-        "Role": "Manager",
-        "Status": "Active",
-        "tableheaders": ["email", "UserName", "Role", "Status"]
-      },
-      "doc_position": 0
-    },
-    {
-      "record_id": "staff_managment21",
-      "feature_name": "Staff_managment",
-      "added_by": "flex_admin",
-      "record_status": "active",
-      "created_on_date": "2025-02-18",
-      "feature_data": {
-        "record_data": [
-          {
-            "record_label": "email",
-            "record_type": "type_text",
-            "record_value_text": "eppiswaroop@gmail.com"
-          }
-        ]
-      },
-      "more_data": {
-        "UserName": "eppit02",
-        "Role": "Manager",
-        "Status": "Active",
-        "tableheaders": ["email", "UserName", "Role", "Status"]
-      },
-      "doc_position": 0
-    },
-    {
-      "record_id": "staff_managment0020",
-      "feature_name": "Staff_managment",
-      "added_by": "flex_admin",
-      "record_status": "active",
-      "created_on_date": "2025-02-19",
-      "feature_data": {
-        "record_data": [
-          {
-            "record_label": "email",
-            "record_type": "type_text",
-            "record_value_text": "vinayb1@gmail.com"
-          }
-        ]
-      },
-      "more_data": {
-        "UserName": "VinayB1",
-        "Role": "Manager",
-        "Status": "Active",
-        "tableheaders": ["email", "UserName", "Role", "Status"]
-      },
-      "doc_position": 0
-    },
-    {
-      "record_id": "staff_managment0021",
-      "feature_name": "Staff_managment",
-      "added_by": "flex_admin",
-      "record_status": "active",
-      "created_on_date": "2025-02-19",
-      "feature_data": {
-        "record_data": [
-          {
-            "record_label": "email",
-            "record_type": "type_text",
-            "record_value_text": "vikayb3@gmail.com"
-          }
-        ]
-      },
-      "more_data": {
-        "UserName": "VikayB2",
+        "UserName": "Vinay",
         "Role": "Manager",
         "Status": "Active",
         "tableheaders": ["email", "UserName", "Role", "Status"]

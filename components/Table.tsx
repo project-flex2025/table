@@ -50,7 +50,40 @@ const CustomTable = ({ data, setData }: any) => {
   const [bulkUploadData, setBulkUploadData] = React.useState<any[]>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  const fetchCategories = async () => {
+    try {
+      console.log("Top feach function...");
+
+      const response = await fetch("api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conditions: [
+            {
+              field: "feature_name",
+              value: "Staff_managment",
+              search_type: "exact",
+            },
+          ],
+          page: page,
+          limit: 5,
+          combination_type: "and",
+          dataset: "feature_data",
+          app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+        }),
+      });
+      const data = await response.json();
+      console.log("New data after delete:", data); // Debugging
+      settableData(data || []);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     setCurrentPage(page);
     // Call an API or load new data based on the new page if necessary
     const fetchCategories = async () => {
@@ -82,13 +115,7 @@ const CustomTable = ({ data, setData }: any) => {
     fetchCategories();
   };
 
-
-  console.log(bulkUploadData, "bulkUploadData");
-
-  console.log(tableData?.total_results, "tableData...");
-
   const handleEdit = (data: any) => {
-    console.log(data, "handleEdit");
     setEdit(data);
   };
 
@@ -113,6 +140,7 @@ const CustomTable = ({ data, setData }: any) => {
       if (response.ok) {
         console.log("Record deleted successfully");
         setRecordDelete((prev) => !prev); // Trigger re-fetch
+        fetchCategories();
       } else {
         console.error("Failed to delete the record", data);
       }
@@ -155,11 +183,18 @@ const CustomTable = ({ data, setData }: any) => {
           }),
         });
         const data = await response.json();
+        console.log("Fetched data:", data); // Log the response
         settableData(data || []);
       } catch (err) {
         // Handle error
       }
     };
+    fetchCategories();
+  }, []);
+
+  React.useEffect(() => {
+    console.log("useEffect to all top function.");
+
     fetchCategories();
   }, [recordDelete]);
 
@@ -372,7 +407,7 @@ const CustomTable = ({ data, setData }: any) => {
           <Button variant="outlined" onClick={handleDownload}>
             Download
           </Button>
-        )}{" "}
+        )}
         {data?.addnewuser && (
           <Button variant="contained" onClick={() => setAdd(true)}>
             Add User
@@ -428,9 +463,9 @@ const CustomTable = ({ data, setData }: any) => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleRowsPerPageChange}
       /> */}
-      <Box sx={{justifyItems:"end",p:2}}>
-      {/* <Pagination count={tableData?.total_results/5} defaultPage={1}  />  */}
-      <Pagination
+      <Box sx={{ justifyItems: "end", p: 2 }}>
+        {/* <Pagination count={tableData?.total_results/5} defaultPage={1}  />  */}
+        <Pagination
           count={Math.ceil(tableData?.total_results / 5)}
           page={currentPage}
           onChange={handlePageChange}
