@@ -98,10 +98,12 @@ import {
   Button,
   Typography,
   Box,
+  IconButton,
 } from "@mui/material";
 import { format } from "date-fns";
 import tableconfig from "@/public/tableconfig.json";
 import tabledata from "@/public/tabledata.json";
+import EditDialog from "./EditDilog";
 
 interface TableColumn {
   key: string;
@@ -162,6 +164,10 @@ export default function DynamicTable() {
   const [config, setConfig] = useState<TableConfig | null>(null);
   const [data, setData] = useState<TableRow[]>([]);
   const [filters, setFilters] = useState<Record<string, any>>({});
+  const [editRow, setEditRow] = useState<any>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  console.log(data, "data...");
 
   useEffect(() => {
     if (tableconfig?.table_config) {
@@ -192,11 +198,6 @@ export default function DynamicTable() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   setConfig(tableconfig?.table_config ?? null);
-  //   setData(tabledata ?? []);
-  // }, []);
-
   if (!config || !config.columns || data.length === 0)
     return <Typography>Loading...</Typography>;
 
@@ -223,17 +224,27 @@ export default function DynamicTable() {
   // const sortedData = [...filteredData].sort((a, b) => {
   //   const column = config?.sorting?.default_column || "id";
   //   const order = config?.sorting?.default_order === "asc" ? 1 : -1;
-  //   return a[column] > b[column] ? order : -order;
+
+  //   return String(a[column as keyof TableRow]) >
+  //     String(b[column as keyof TableRow])
+  //     ? order
+  //     : -order;
   // });
 
   const sortedData = [...filteredData].sort((a, b) => {
     const column = config?.sorting?.default_column || "id";
     const order = config?.sorting?.default_order === "asc" ? 1 : -1;
 
-    return String(a[column as keyof TableRow]) >
-      String(b[column as keyof TableRow])
-      ? order
-      : -order;
+    // Ensure numeric sorting for `id`
+    if (column === "id") {
+      return (a.id - b.id) * order;
+    }
+
+    return (
+      String(a[column as keyof TableRow]).localeCompare(
+        String(b[column as keyof TableRow])
+      ) * order
+    );
   });
 
   const itemsPerPage = config?.pagination?.page_size ?? 10;
@@ -242,18 +253,42 @@ export default function DynamicTable() {
     (currentPage + 1) * itemsPerPage
   );
 
-  console.log(displayedData, "displayData", config.columns);
+  console.log(displayedData, "displaydata after function");
 
   const handleActions = (data: any) => {
-    console.log(data?.edit, "handleactions");
-
     return (
       <Box>
         <EditIcon sx={{ color: "blue", cursor: "pointer" }} />
-
         <DeleteIcon sx={{ color: "red", ml: 1, cursor: "pointer" }} />
       </Box>
     );
+  };
+
+  const handleEditClick = (row: any) => {
+    setEditRow(row);
+    setIsEditOpen(true);
+  };
+
+  // const handleSaveEdit = (updatedData: any) => {
+  //   setData((prevData) =>
+  //     prevData.map((row) => (row.id === updatedData.id ? updatedData : row))
+  //   );
+  // };
+
+  const handleSaveEdit = (updatedData: any) => {
+    setData((prevData) => {
+      const updatedList = prevData.map((row) =>
+        row.id === updatedData.id ? updatedData : row
+      );
+
+      // Preserve original order by always sorting by `id`
+      return updatedList.sort((a, b) => a.id - b.id);
+    });
+  };
+
+  // Handle Delete
+  const handleDelete = (id: number) => {
+    setData((prevData) => prevData.filter((row) => row.id !== id));
   };
 
   return (
@@ -319,11 +354,20 @@ export default function DynamicTable() {
               <TableRow key={index} hover>
                 {config.columns?.map((col) => (
                   <TableCell key={col.key}>
-                    {col.type === "date"
-                      ? format(new Date(row[col.key]), "yyyy-MM-dd")
-                      : col.type === "actions"
-                      ? handleActions(row[col.key])
-                      : row[col.key]}
+                    {col.type === "date" ? (
+                      format(new Date(row[col.key]), "yyyy-MM-dd")
+                    ) : col.type === "actions" ? (
+                      <Box>
+                        <IconButton onClick={() => handleEditClick(row)}>
+                          <EditIcon sx={{ color: "blue" }} />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(row.id)}>
+                          <DeleteIcon sx={{ color: "red" }} />
+                        </IconButton>
+                      </Box>
+                    ) : (
+                      row[col.key]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -340,6 +384,12 @@ export default function DynamicTable() {
         onPageChange={(_, newPage) => setCurrentPage(newPage)}
         rowsPerPage={itemsPerPage}
         rowsPerPageOptions={[itemsPerPage]}
+      />
+      <EditDialog
+        open={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        rowData={editRow}
+        onSave={handleSaveEdit}
       />
     </Paper>
   );
