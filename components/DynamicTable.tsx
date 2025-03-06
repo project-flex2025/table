@@ -103,27 +103,103 @@ import { format } from "date-fns";
 import tableconfig from "@/public/tableconfig.json";
 import tabledata from "@/public/tabledata.json";
 
+interface TableColumn {
+  key: string;
+  label: string;
+  type: string;
+  sortable: boolean;
+  filterable: boolean;
+  filter_type?: string;
+  options?: string[];
+  actions?: { name: string; type: string; icon: string; route: string }[];
+}
+
+interface Pagination {
+  page_size: number;
+  current_page: number;
+  total_pages: number;
+  total_records: number;
+}
+
+interface Sorting {
+  default_column: string;
+  default_order: "asc" | "desc";
+}
+
+interface GlobalFilters {
+  date_range?: { label: string; type: string; start_date?: string; end_date?: string };
+  search?: { label: string; type: string; placeholder: string };
+}
+
+interface TableConfig {
+  table_name: string;
+  columns: TableColumn[];
+  pagination: Pagination;
+  sorting: Sorting;
+  global_filters?: GlobalFilters;
+}
+
+interface TableRow {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  created_at: string;
+  actions?: {
+    edit: boolean;
+    delete: boolean;
+  };
+}
+
+
+
+
 export default function DynamicTable() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [config, setConfig] = useState(null);
-  const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [config, setConfig] = useState<TableConfig | null>(null);
+  const [data, setData] = useState<TableRow[]>([]);
+  const [filters, setFilters] = useState<Record<string, any>>({});
 
   useEffect(() => {
-    setConfig(tableconfig?.table_config ?? null);
-    setData(tabledata ?? []);
+    if (tableconfig?.table_config) {
+      setConfig({
+        ...tableconfig.table_config,
+        sorting: {
+          ...tableconfig.table_config.sorting,
+          default_order: tableconfig.table_config.sorting.default_order as "asc" | "desc", // Explicitly cast
+        },
+        global_filters: {
+          ...tableconfig.table_config.global_filters,
+          date_range: {
+            ...tableconfig.table_config.global_filters?.date_range,
+            start_date: tableconfig.table_config.global_filters?.date_range?.start_date ?? undefined,
+            end_date: tableconfig.table_config.global_filters?.date_range?.end_date ?? undefined,
+          },
+        },
+      });
+    }
+    if (tabledata) {
+      setData(tabledata);
+    }
   }, []);
+  
+
+  // useEffect(() => {
+  //   setConfig(tableconfig?.table_config ?? null);
+  //   setData(tabledata ?? []);
+  // }, []);
 
   if (!config || !config.columns || data.length === 0)
     return <Typography>Loading...</Typography>;
 
-  const handleFilterChange = (key, value) => {
+  const handleFilterChange = (key:any, value:any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const filteredData =
-    data?.filter((row) => {
-      return config.columns?.every((col) => {
+    data?.filter((row:any) => {
+      return config.columns?.every((col:any) => {
         if (!col.filterable || !filters[col.key]) return true;
         if (col.filter_type === "search") {
           return row[col.key]
@@ -137,11 +213,19 @@ export default function DynamicTable() {
       });
     }) || [];
 
+  // const sortedData = [...filteredData].sort((a, b) => {
+  //   const column = config?.sorting?.default_column || "id";
+  //   const order = config?.sorting?.default_order === "asc" ? 1 : -1;
+  //   return a[column] > b[column] ? order : -order;
+  // });
+
   const sortedData = [...filteredData].sort((a, b) => {
     const column = config?.sorting?.default_column || "id";
     const order = config?.sorting?.default_order === "asc" ? 1 : -1;
-    return a[column] > b[column] ? order : -order;
+    
+    return (String(a[column as keyof TableRow]) > String(b[column as keyof TableRow]) ? order : -order);
   });
+
 
   const itemsPerPage = config?.pagination?.page_size ?? 10;
   const displayedData = sortedData.slice(
@@ -222,7 +306,7 @@ export default function DynamicTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {displayedData.map((row, index) => (
+            {displayedData.map((row:any, index) => (
               <TableRow key={index} hover>
                 {config.columns?.map((col) => (
                   <TableCell key={col.key}>
