@@ -1,5 +1,5 @@
 "use client";
-import DynamicTable from "@/components/DynamicTable";
+import DynamicTable1 from "@/components/DynamicTable copy";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -27,7 +27,9 @@ export default function Dashboard() {
       {/* <CustomTable2  data={tabledata}></CustomTable2> */}
       {/* <ReusableTable config={tabledata} /> */}
 
-      <DynamicTable></DynamicTable>
+      <DynamicTable1></DynamicTable1>
+
+      {/* <DynamicTable></DynamicTable> */}
     </div>
   );
 }

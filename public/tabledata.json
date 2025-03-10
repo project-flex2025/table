@@ -5,8 +5,7 @@
     "email": "alice@example.com",
     "role": "Admin",
     "status": "Active",
-    "created_at": "2024-01-15",
-    "actions": { "edit": true, "delete": true }
+    "created_at": "2024-01-15"
   },
   {
     "id": 2,
@@ -25,22 +24,6 @@
     "created_at": "2023-12-20"
   },
   {
-    "id": 4,
-    "name": "David Smith",
-    "email": "david@example.com",
-    "role": "User",
-    "status": "Active",
-    "created_at": "2023-11-05"
-  },
-  {
-    "id": 5,
-    "name": "Emma White",
-    "email": "emma@example.com",
-    "role": "Admin",
-    "status": "Inactive",
-    "created_at": "2024-02-25"
-  },
-  {
     "id": 6,
     "name": "Franklin Harris",
     "email": "franklin@example.com",
@@ -55,6 +38,22 @@
     "role": "User",
     "status": "Suspended",
     "created_at": "2023-09-30"
+  },
+  {
+    "id": 4,
+    "name": "David Smith",
+    "email": "david@example.com",
+    "role": "User",
+    "status": "Active",
+    "created_at": "2023-11-05"
+  },
+  {
+    "id": 5,
+    "name": "Emma White",
+    "email": "emma@example.com",
+    "role": "Admin",
+    "status": "Inactive",
+    "created_at": "2024-02-25"
   },
   {
     "id": 8,

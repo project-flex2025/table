@@ -52,8 +52,6 @@ const CustomTable = ({ data, setData }: any) => {
 
   const fetchCategories = async () => {
     try {
-      console.log("Top feach function...");
-
       const response = await fetch("api/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -85,7 +83,6 @@ const CustomTable = ({ data, setData }: any) => {
     page: number
   ) => {
     setCurrentPage(page);
-    // Call an API or load new data based on the new page if necessary
     const fetchCategories = async () => {
       try {
         const response = await fetch("api/search", {

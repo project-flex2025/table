@@ -13,7 +13,7 @@
         "key": "name",
         "label": "Full Name",
         "type": "text",
-        "sortable": true,
+        "sortable": false,
         "filterable": true,
         "filter_type": "search"
       },
@@ -21,7 +21,7 @@
         "key": "email",
         "label": "Email Address",
         "type": "email",
-        "sortable": true,
+        "sortable": false,
         "filterable": true,
         "filter_type": "search"
       },
@@ -42,14 +42,6 @@
         "filterable": true,
         "filter_type": "dropdown",
         "options": ["Active", "Inactive", "Suspended"]
-      },
-      {
-        "key": "created_at",
-        "label": "Created Date",
-        "type": "date",
-        "sortable": true,
-        "filterable": true,
-        "filter_type": "date"
       },
       {
         "key": "actions",
@@ -74,10 +66,8 @@
       }
     ],
     "pagination": {
-      "page_size": 6,
-      "current_page": 1,
-      "total_pages": 20,
-      "total_records": 200
+      "page_size": 5,
+      "current_page": 1
     },
     "sorting": {
       "default_column": "name",
