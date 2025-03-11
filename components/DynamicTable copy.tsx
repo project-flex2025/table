@@ -4,6 +4,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import * as XLSX from "xlsx";
 import {
   Box,
   Button,
@@ -97,11 +98,8 @@ export default function DynamicTable1() {
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [totalcount, setTotalCount] = useState(null);
-  const [pageSelection, setPageSelection] = useState("current");
 
-  console.log(config?.columns, "config...", tableData);
-
-  console.log(filters, "filters");
+  console.log(tableData, "tabledata.....");
 
   const fetchData = async () => {
     setLoading(true);
@@ -218,65 +216,124 @@ export default function DynamicTable1() {
     fetchData();
   }, [currentPage]);
 
-  // Handle file upload
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        let newData = [];
+    // Validate file type
+    const allowedTypes = [
+      "text/csv",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      return alert("Invalid file type! Please upload a CSV or Excel file.");
+    }
 
-        if (file.name.endsWith(".json")) {
-          newData = JSON.parse(e.target?.result as string);
-        } else if (file.name.endsWith(".csv")) {
-          newData = csvToJson(e.target?.result as string);
-        } else {
-          alert("Unsupported file type. Upload JSON or CSV.");
-          return;
+    console.log("Uploading files.....");
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      console.log(result?.failedRecords, "Failed Records", result);
+
+      setLoading(false);
+
+      if (result.success) {
+        setData(result.data);
+        fetchData();
+
+        // If there are failed records, download them as CSV
+        if (result.failedRecords.length > 0) {
+          downloadFailedRecords(result.failedRecords);
         }
-
-        var updatedData = updateArrayWithSnowflakeIds(newData);
-
-        if (!Array.isArray(newData)) {
-          alert("Invalid format. Expected an array.");
-          return;
-        }
-
-        updatedData = [...data, ...newData];
-        setData(updatedData); // ✅ Update UI immediately
-        await fetch("/api/update-tabledata", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedData),
-        });
-
-        alert("Data uploaded successfully!");
-      } catch (error) {
-        console.error("Upload error:", error);
-        alert("Upload failed. Ensure the file is a valid JSON or CSV.");
+      } else {
+        alert("Upload failed!");
       }
-    };
-
-    reader.readAsText(file);
+    } catch (error) {
+      console.error("Upload Error:", error);
+      alert("Error uploading file.");
+      setLoading(false);
+    }
   };
 
-  // Convert CSV to JSON
-  const csvToJson = (csv: string): any[] => {
-    const lines = csv.split("\n").map((line) => line.trim());
-    const headers = lines[0].split(",");
+  // Function to download failed records as a CSV file
+  const downloadFailedRecords = (failedRecords: any[]) => {
+    const worksheet = XLSX.utils.json_to_sheet(failedRecords);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Failed Records");
 
-    return lines.slice(1).map((line) => {
-      const values = line.split(",");
-      return headers.reduce((obj, header, index) => {
-        obj[header] = values[index]?.trim() || "";
-        return obj;
-      }, {} as Record<string, string>);
+    // Convert workbook to a Blob and create a download link
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
     });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "failed_records.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
+  // Handle file upload
+  // const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (!file) return;
+
+  //   // Validate file type
+  //   const allowedTypes = [
+  //     "text/csv",
+  //     "application/vnd.ms-excel",
+  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //   ];
+  //   if (!allowedTypes.includes(file.type)) {
+  //     return alert("Invalid file type! Please upload a CSV or Excel file.");
+  //   }
+
+  //   if (!file) return alert("Please select a file!");
+
+  //   console.log("Uploading files.....");
+
+  //   setLoading(true);
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     const response = await fetch("/api/upload", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     const result = await response.json();
+
+  //     console.log(result?.failedRecords, "result....");
+
+  //     setLoading(false);
+
+  //     if (result.success) {
+  //       setData(result.data);
+  //       fetchData();
+  //     } else {
+  //       alert("Upload failed!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Upload Error:", error);
+  //     alert("Error uploading file.");
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSort = () => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -362,7 +419,7 @@ export default function DynamicTable1() {
 
   // Handle Delete
   const handleDelete = (id: number) => {
-    setData((prevData) => prevData.filter((row) => row.id !== id));
+    console.log(id, "id......");
   };
 
   const handleAddUser = (newUser: TableRow) => {
@@ -433,27 +490,17 @@ export default function DynamicTable1() {
         <Button variant="outlined" onClick={() => setIsDialogOpen(true)}>
           Add User
         </Button>
-        <Select
-          size="small"
-          value={pageSelection}
-          onChange={(e) => setPageSelection(e.target.value)}
-          label="Select Page"
-        >
-          <MenuItem value="current">Current Page</MenuItem>
-          <MenuItem value="all">All Pages</MenuItem>
-        </Select>
         <DownloadCSV
           pageSize={pageSize}
           search={search}
-          pageStatus={pageSelection}
           tableData={tableData}
         ></DownloadCSV>
         {/* <UploadFile onDataUpload={handleDataUpload} /> */}
-        {/* 
+
         <Button variant="outlined" component="label">
           Upload CSV
           <input type="file" hidden accept=".csv" onChange={handleUpload} />
-        </Button> */}
+        </Button>
       </Box>
 
       {/* Table Section */}

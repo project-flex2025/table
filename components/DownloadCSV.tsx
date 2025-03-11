@@ -1,20 +1,22 @@
-import { Button } from "@mui/material";
-import { useState } from "react";
+import { Button, IconButton, Menu, MenuItem } from "@mui/material";
+import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-function DownloadCSV({ pageStatus, tableData, pageSize, search }: any) {
+function DownloadCSV({ tableData, pageSize, search }: any) {
   const [downloadformatte, setdownloadformatte] = useState("csv");
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const [pagestatus, setPageStatus] = useState("current");
 
-  const handleDownload = async () => {
+  const handleDownload = async (pagestatus: string) => {
     try {
       let allData = [];
 
-      if (pageStatus === "current") {
+      if (pagestatus === "current") {
         // Fetch only the current page's data
         allData = tableData;
-      } else if (pageStatus === "all") {
+      } else if (pagestatus === "all") {
         let allRecords = [];
         let currentPage = 1;
         let totalPages = 1;
@@ -102,30 +104,78 @@ function DownloadCSV({ pageStatus, tableData, pageSize, search }: any) {
     return headers + rows;
   };
 
-  // Convert CSV to JSON
-  // const convertToCSV = (csv: string): any[] => {
-  //   const lines = csv.split("\n").map((line) => line.trim());
-  //   const headers = lines[0].split(",");
+  const handleExcel = (event: React.MouseEvent<HTMLElement>) => {
+    setdownloadformatte("excel");
+    setAnchorEl(event.currentTarget);
+  };
 
-  //   return lines.slice(1).map((line) => {
-  //     const values = line.split(",");
-  //     return headers.reduce((obj, header, index) => {
-  //       obj[header] = values[index]?.trim() || "";
-  //       return obj;
-  //     }, {} as Record<string, string>);
-  //   });
-  // };
+  const handleCSV = (event: React.MouseEvent<HTMLElement>) => {
+    setdownloadformatte("csv");
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePDF = (event: React.MouseEvent<HTMLElement>) => {
+    setdownloadformatte("pdf");
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCurrentpage = () => {
+    setAnchorEl(null);
+    handleDownload("current");
+  };
+
+  const handleAllpages = () => {
+    setAnchorEl(null);
+    handleDownload("all");
+  };
 
   return (
-    <div>
-      <Button
-        sx={{ height: "100%" }}
-        size="medium"
-        variant="outlined"
-        onClick={handleDownload}
+    <div
+      style={{
+        border: "1px solid black",
+        borderRadius: "4px",
+        textAlign: "center",
+      }}
+    >
+      Download
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "30px",
+          padding: "0px 14px 4px 14px",
+        }}
       >
-        Download CSV
-      </Button>
+        <i className="fa-solid fa-file-excel" onClick={handleExcel}></i>
+        <i className="fa-solid fa-file-csv" onClick={handleCSV}></i>
+        <i className="fa-solid fa-file-pdf" onClick={handlePDF}></i>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleCurrentpage}>Current Page</MenuItem>
+          <MenuItem onClick={handleAllpages}>All Pages</MenuItem>
+        </Menu>
+      </div>
     </div>
   );
 }

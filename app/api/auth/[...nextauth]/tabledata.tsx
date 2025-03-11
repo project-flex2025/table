@@ -90,30 +90,6 @@ const tableData = [
     status: "Suspended",
     created_at: "2023-06-15",
   },
-  {
-    id: 12,
-    name: "Liam Walker",
-    email: "liam@example.com",
-    role: "Manager",
-    status: "Active",
-    created_at: "2023-05-20",
-  },
-  {
-    id: 13,
-    name: "Mia Scott",
-    email: "mia@example.com",
-    role: "User",
-    status: "Inactive",
-    created_at: "2023-04-25",
-  },
-  {
-    id: 14,
-    name: "Noah Parker",
-    email: "noah@example.com",
-    role: "Admin",
-    status: "Active",
-    created_at: "2023-03-10",
-  },
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

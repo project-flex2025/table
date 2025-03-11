@@ -28,11 +28,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ success: false, message: "Invalid or empty data" });
     }
 
+    console.log(newData,"newData....");
+    
+
     // Merge new data while avoiding duplicates
     const updatedData = [...existingData, ...newData.filter((item) => !existingData.some((d:any) => d.id === item.id))];
 
+    console.log(updatedData,"updatedData....");
+    
+
     // Write the new data back to the file
-    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2));
+    // fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2));
 
     return res.status(200).json({ success: true, message: "Data uploaded successfully" });
   } catch (error) {

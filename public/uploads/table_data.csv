@@ -1,0 +1,7 @@
+User Name,Email,Role,Status,Actions
+America,john@example.com,Manager,Active,[object Object]
+India,jane@example.com,Chef,Active,[object Object]
+Michael Brown,michael@example.com,Waiter,Inactive,[object Object]
+Emily White,emily@example.com,Cashier,Active,[object Object]
+Chris Wilson,chris@example.com,Delivery,Active,[object Object]
+John Doe,john@example.com,Manager,Active,[object Object]
