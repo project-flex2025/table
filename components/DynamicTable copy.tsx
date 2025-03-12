@@ -99,29 +99,24 @@ export default function DynamicTable1() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [totalcount, setTotalCount] = useState(null);
 
-  console.log(tableData, "tabledata.....");
-
+  // Fetch data with filters, pagination, and search
   const fetchData = async () => {
     setLoading(true);
     try {
-      // const res = await fetch(
-      //   `/api/table?page=${currentPage}&limit=${pageSize}&search=${
-      //     filters?.name || ""
-      //   }&role=${filters?.role || ""}&status=${filters?.status || ""}`
-      // );
+      // Construct query parameters
+      const queryParams = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: pageSize.toString(),
+        ...Object.fromEntries(
+          Object.entries(filters).filter(([_, value]) => value !== "")
+        ), // Exclude empty filters
+      });
 
-      const res = await fetch(
-        `/api/table?page=${currentPage}&limit=${pageSize}&search=${
-          filters?.name || ""
-        }`
-      );
+      const res = await fetch(`/api/table?${queryParams.toString()}`);
 
       if (!res.ok) throw new Error(`Error: ${res.status}`);
 
       const result = await res.json();
-
-      console.log(result, "res....0000");
-
       setTableData(result.data || []);
       setTotalCount(result.totalRecords);
     } catch (error) {
@@ -129,37 +124,6 @@ export default function DynamicTable1() {
     }
     setLoading(false);
   };
-
-  console.log(tableData, "tabledata...");
-
-  // useEffect(() => {
-  //   if (tableconfig?.table_config) {
-  //     setConfig({
-  //       ...tableconfig.table_config,
-  //       sorting: {
-  //         ...tableconfig.table_config.sorting,
-  //         default_order: tableconfig.table_config.sorting.default_order as
-  //           | "asc"
-  //           | "desc", // Explicitly cast
-  //       },
-  //       global_filters: {
-  //         ...tableconfig.table_config.global_filters,
-  //         date_range: {
-  //           ...tableconfig.table_config.global_filters?.date_range,
-  //           start_date:
-  //             tableconfig.table_config.global_filters?.date_range?.start_date ??
-  //             undefined,
-  //           end_date:
-  //             tableconfig.table_config.global_filters?.date_range?.end_date ??
-  //             undefined,
-  //         },
-  //       },
-  //     });
-  //   }
-  // if (tabledata) {
-  //   setData(tabledata);
-  // }
-  // }, []);
 
   class Snowflake {
     machineId: number;
@@ -230,7 +194,6 @@ export default function DynamicTable1() {
       return alert("Invalid file type! Please upload a CSV or Excel file.");
     }
 
-    console.log("Uploading files.....");
     setLoading(true);
 
     const formData = new FormData();
@@ -397,12 +360,6 @@ export default function DynamicTable1() {
         return true;
       });
     }) || [];
-
-  // const itemsPerPage = config?.pagination?.page_size ?? 10;
-  // const displayedData = sortedData.slice(
-  //   currentPage * itemsPerPage,
-  //   (currentPage + 1) * itemsPerPage
-  // );
 
   const handleEditClick = (row: any) => {
     setEditRow(row);
@@ -576,178 +533,3 @@ export default function DynamicTable1() {
     </Paper>
   );
 }
-
-// "use client";
-// import { useState, useEffect } from "react";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import EditIcon from "@mui/icons-material/Edit";
-// import {
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   TableContainer,
-//   TablePagination,
-//   Paper,
-//   TextField,
-//   MenuItem,
-//   Select,
-//   FormControl,
-//   InputLabel,
-//   Button,
-//   Typography,
-//   Box,
-//   IconButton,
-// } from "@mui/material";
-// import { format } from "date-fns";
-// import tableconfig from "@/public/tableconfig.json";
-// import tabledata from "@/public/tabledata.json";
-// import EditDialog from "./EditDilog";
-// import AddUserDialog from "./AddUserDilog";
-// import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
-// interface TableColumn {
-//   key: string;
-//   label: string;
-//   type: string;
-//   sortable: boolean;
-//   filterable: boolean;
-//   filter_type?: string;
-//   options?: string[];
-//   actions?: { name: string; type: string; icon: string; route: string }[];
-// }
-
-// interface Pagination {
-//   page_size: number;
-//   current_page: number;
-//   total_pages: number;
-//   total_records: number;
-// }
-
-// interface TableConfig {
-//   table_name: string;
-//   columns: TableColumn[];
-//   pagination: Pagination;
-//   sorting: Sorting;
-//   global_filters: GlobalFilters;
-// }
-
-// interface Sorting {
-//   default_column: string;
-//   default_order: "asc" | "desc";
-// }
-
-// interface GlobalFilters {
-//   date_range?: {
-//     label: string;
-//     type: string;
-//     start_date?: string;
-//     end_date?: string;
-//   };
-//   search?: { label: string; type: string; placeholder: string };
-// }
-
-// interface TableRow {
-//   id: number;
-//   name: string;
-//   email: string;
-//   role: string;
-//   status: string;
-//   created_at: string;
-//   actions?: {
-//     edit: boolean;
-//     delete: boolean;
-//   };
-// }
-
-// export default function DynamicTable() {
-//   const [currentPage, setCurrentPage] = useState(0);
-//   const [config, setConfig] = useState<TableConfig | null>(null);
-//   const [data, setData] = useState<TableRow[]>([]);
-//   const [editRow, setEditRow] = useState<any>(null);
-//   const [isEditOpen, setIsEditOpen] = useState(false);
-//   const [isDialogOpen, setIsDialogOpen] = useState(false);
-//   const [tableData, setTableData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [page, setPage] = useState(1);
-//   const [pageSize, setPageSize] = useState(10);
-//   const [search, setSearch] = useState("");
-//   const [filters, setFilters] = useState<Record<string, any>>({});
-//   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-//   const handleSort = () => {
-//     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-//   };
-
-//   const sortedData = [...data].sort((a, b) => {
-//     return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
-//   });
-
-//   useEffect(() => {
-//     if (tableconfig?.table_config) {
-//       setConfig({
-//         ...tableconfig.table_config,
-//         sorting: {
-//           ...tableconfig.table_config.sorting,
-//           default_order: tableconfig.table_config.sorting.default_order as
-//             | "asc"
-//             | "desc",
-//         },
-//       });
-//     }
-//     if (tabledata) {
-//       setData(tabledata);
-//     }
-//   }, []);
-
-//   if (!config || !config.columns || data.length === 0)
-//     return <Typography>Loading...</Typography>;
-
-//   return (
-//     <Paper sx={{ padding: 3, boxShadow: 3 }}>
-//       <Typography variant="h5" fontWeight="bold" mb={2}>
-//         {config?.table_name ?? "Table"}
-//       </Typography>
-//       <TableContainer>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               {config.columns?.map((col) => (
-//                 <TableCell
-//                   key={col.key}
-//                   sx={{ fontWeight: "bold", bgcolor: "#f5f5f5" }}
-//                 >
-//                   {col.label}
-//                   {col.key === "id" && (
-//                     <IconButton size="small" onClick={handleSort}>
-//                       {sortOrder === "asc" ? (
-//                         <ArrowUpwardIcon />
-//                       ) : (
-//                         <ArrowDownwardIcon />
-//                       )}
-//                     </IconButton>
-//                   )}
-//                 </TableCell>
-//               ))}
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {sortedData.map((row, index) => (
-//               <TableRow key={index} hover>
-//                 {config.columns?.map((col) => (
-//                   <TableCell key={col.key}>
-//                     {col.type === "date"
-//                       ? format(new Date(row[col.key]), "yyyy-MM-dd")
-//                       : row[col.key]}
-//                   </TableCell>
-//                 ))}
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//     </Paper>
-//   );
-// }
