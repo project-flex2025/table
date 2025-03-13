@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import tabledata from "./dashboard_settings.json";
+import DynamicTable from "@/components/DynamicTable copy";
+import tableconfig from "@/public/tableconfig.json";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -27,8 +29,7 @@ export default function Dashboard() {
       {/* <CustomTable2  data={tabledata}></CustomTable2> */}
       {/* <ReusableTable config={tabledata} /> */}
 
-      <DynamicTable1></DynamicTable1>
-
+      <DynamicTable tableConfig={tableconfig?.table_config}></DynamicTable>
       {/* <DynamicTable></DynamicTable> */}
     </div>
   );
