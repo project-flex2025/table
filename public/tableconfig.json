@@ -11,7 +11,7 @@
     },
     "columns": [
       {
-        "key": "id",
+        "key": "record_id",
         "label": "User ID",
         "type": "number",
         "sortable": true,
@@ -43,7 +43,7 @@
         "options": ["Admin", "Manager", "User"]
       },
       {
-        "key": "status",
+        "key": "record_status",
         "label": "Account Status",
         "type": "dropdown",
         "sortable": false,
@@ -118,6 +118,7 @@
           "route": "/users/add"
         }
       ]
-    }
+    },
+    "downloadRange": 10
   }
 }

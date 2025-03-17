@@ -1,7 +1,88 @@
 {
-    "sorting":true,
-    ""
+  "data": [
+    {
+      "record_id": "rec1",
+      "feature_name": "employes",
+      "added_by": "user1",
+      "record_status": "active",
+      "created_on_date": "2024-10-22",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "name",
+            "record_type": "text",
+            "record_value_text": "Vignesh"
+          },
+          {
+            "record_label": "email",
+            "record_type": "text",
+            "record_value_text": "vignesh@gmail.com"
+          },
+          {
+            "record_label":"role",
+            "record_type":"text",
+            "record_value_text": "Admin"
+          }
+        ]
+      }
+    },
+    {
+      "record_id": "rec2",
+      "feature_name": "employes",
+      "added_by": "user2",
+      "record_status": "active",
+      "created_on_date": "2024-10-22",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "name",
+            "record_type": "text",
+            "record_value_text": "Sharath"
+          },
+          {
+            "record_label": "email",
+            "record_type": "text",
+            "record_value_text": "Sharath@gmail.com"
+          },
+          {
+            "record_label":"role",
+            "record_type":"text",
+            "record_value_text": "Manager"
+          }
+        ]
+      }
+    },
+    {
+      "record_id": "rec3",
+      "feature_name": "employes",
+      "added_by": "user1",
+      "record_status": "active",
+      "created_on_date": "2024-10-22",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "name",
+            "record_type": "text",
+            "record_value_text": "Vijay"
+          },
+          {
+            "record_label": "email",
+            "record_type": "text",
+            "record_value_text": "vijay@gmail.com"
+          },
+          {
+            "record_label":"role",
+            "record_type":"text",
+            "record_value_text": "User"
+          }
+        ]
+      }
+    }
+  ],
+  "dataset": "feature_data",
+  "app_secret": "38475203487kwsdjfvb1023897yfwbhekrfj"
 }
+
 
 
 
