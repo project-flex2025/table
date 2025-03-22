@@ -1,0 +1,28 @@
+{
+  "total_results": 15,
+  "data": [
+    {
+      "record_id": "staff_managment05",
+      "feature_name": "Staff_managment",
+      "added_by": "flex_admin",
+      "record_status": "active",
+      "created_on_date": "2025-02-18",
+      "feature_data": {
+        "record_data": [
+          {
+            "record_label": "email",
+            "record_type": "type_text",
+            "record_value_text": "vinay@gmail.com"
+          }
+        ]
+      },
+      "more_data": {
+        "UserName": "Vinay",
+        "Role": "Manager",
+        "Status": "Active",
+        "tableheaders": ["email", "UserName", "Role", "Status"]
+      },
+      "doc_position": 0
+    }
+  ]
+}

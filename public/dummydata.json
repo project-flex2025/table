@@ -1,0 +1,90 @@
+{
+  "table_config": {
+    "table_name": "User Management",
+    "columns": [
+      {
+        "key": "id",
+        "label": "User ID",
+        "type": "number",
+        "sortable": true,
+        "filterable": false
+      },
+      {
+        "key": "name",
+        "label": "Full Name",
+        "type": "text",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
+        "key": "email",
+        "label": "Email Address",
+        "type": "email",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
+        "key": "role",
+        "label": "User Role",
+        "type": "dropdown",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "dropdown",
+        "options": ["Admin", "Manager", "User"]
+      },
+      {
+        "key": "status",
+        "label": "Account Status",
+        "type": "dropdown",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "dropdown",
+        "options": ["Active", "Inactive", "Suspended"]
+      },
+      {
+        "key": "actions",
+        "label": "Actions",
+        "type": "actions",
+        "sortable": false,
+        "filterable": false,
+        "actions": [
+          {
+            "name": "Edit",
+            "type": "edit",
+            "icon": "edit",
+            "route": "/users/edit/"
+          },
+          {
+            "name": "Delete",
+            "type": "delete",
+            "icon": "delete",
+            "route": "/users/delete/"
+          }
+        ]
+      }
+    ],
+    "pagination": {
+      "page_size": 5,
+      "current_page": 1
+    },
+    "sorting": {
+      "default_column": "name",
+      "default_order": "asc"
+    },
+    "global_filters": {
+      "date_range": {
+        "label": "Date Range",
+        "type": "date_range",
+        "start_date": null,
+        "end_date": null
+      },
+      "search": {
+        "label": "Search",
+        "type": "search",
+        "placeholder": "Search by name, email, role"
+      }
+    }
+  }
+}

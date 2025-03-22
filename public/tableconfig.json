@@ -1,0 +1,124 @@
+{
+  "table_config": {
+    "table_name": "User Management",
+    "api": {
+      "endpoint": "/api/table",
+      "method": "GET",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer token_here"
+      }
+    },
+    "columns": [
+      {
+        "key": "record_id",
+        "label": "User ID",
+        "type": "number",
+        "sortable": true,
+        "filterable": false
+      },
+      {
+        "key": "name",
+        "label": "Full Name",
+        "type": "text",
+        "sortable": true,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
+        "key": "email",
+        "label": "Email Address",
+        "type": "email",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
+        "key": "role",
+        "label": "User Role",
+        "type": "dropdown",
+        "sortable": true,
+        "filterable": true,
+        "filter_type": "dropdown",
+        "options": ["Admin", "Manager", "User"]
+      },
+      {
+        "key": "record_status",
+        "label": "Account Status",
+        "type": "dropdown",
+        "sortable": false,
+        "filterable": true,
+        "filter_type": "dropdown",
+        "options": ["Active", "Inactive", "Suspended"]
+      },
+      {
+        "key": "actions",
+        "label": "Actions",
+        "type": "actions",
+        "sortable": false,
+        "filterable": false,
+        "actions": [
+          {
+            "name": "Edit",
+            "type": "edit",
+            "icon": "edit",
+            "route": "/users/edit/"
+          },
+          {
+            "name": "Delete",
+            "type": "delete",
+            "icon": "delete",
+            "route": "/users/delete/"
+          }
+        ]
+      }
+    ],
+    "pagination": {
+      "enabled": true,
+      "page_size": 10,
+      "current_page": 1
+    },
+    "sorting": {
+      "enabled": true,
+      "default_column": "name",
+      "default_order": "asc"
+    },
+    "global_filters": {
+      "search": {
+        "enabled": true,
+        "placeholder": "Search by name, email, role"
+      },
+      "date_range": {
+        "enabled": true,
+        "label": "Date Range",
+        "start_date": null,
+        "end_date": null
+      }
+    },
+    "toolbar": {
+      "enabled": true,
+      "buttons": [
+        {
+          "name": "Download CSV",
+          "type": "download",
+          "icon": "download",
+          "action": "export_csv"
+        },
+        {
+          "name": "Upload Data",
+          "type": "upload",
+          "icon": "upload",
+          "action": "import_csv"
+        },
+        {
+          "name": "Add User",
+          "type": "add",
+          "icon": "add",
+          "action": "navigate",
+          "route": "/users/add"
+        }
+      ]
+    },
+    "downloadRange": 10
+  }
+}

@@ -1,0 +1,376 @@
+{
+  "form_options": {
+    "form_types": [
+      {
+        "value": "modal form",
+        "label": "Modal Form",
+        "multi_step": false
+      },
+      {
+        "value": "modal form multistep",
+        "label": "Modal Form (Multi-Step)",
+        "multi_step": true
+      },
+      {
+        "value": "newpage",
+        "label": "New Page Form",
+        "multi_step": false
+      },
+      {
+        "value": "newpage multistep",
+        "label": "New Page Form (Multi-Step)",
+        "multi_step": true
+      },
+      {
+        "value": "inline",
+        "label": "Inline Form",
+        "multi_step": false
+      },
+      {
+        "value": "inline multistep",
+        "label": "Inline Form (Multi-Step)",
+        "multi_step": true
+      }
+    ],
+    "field_types": [
+      {
+        "value": "text",
+        "label": "Text Input",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "minLength": { "type": "number", "default": null },
+          "maxLength": { "type": "number", "default": null },
+          "pattern": { "type": "text", "default": "" }
+        }
+      },
+      {
+        "value": "email",
+        "label": "Email Input",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "pattern": {
+            "type": "text",
+            "default": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          }
+        }
+      },
+      {
+        "value": "number",
+        "label": "Number Input",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "min": { "type": "number", "default": null },
+          "max": { "type": "number", "default": null }
+        }
+      },
+      {
+        "value": "date",
+        "label": "Date Picker",
+        "variants": [
+          { "value": "date_picker", "label": "Single Date Picker" },
+          { "value": "date_range_picker", "label": "Date Range Picker" }
+        ],
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "minDate": { "type": "date", "default": null },
+          "maxDate": { "type": "date", "default": null }
+        }
+      },
+      {
+        "value": "select",
+        "label": "Dropdown Select",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "options": { "type": "array", "default": [] }
+        }
+      },
+      {
+        "value": "multiselect",
+        "label": "Multi-Select Dropdown",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "options": { "type": "array", "default": [] }
+        }
+      },
+      {
+        "value": "radio",
+        "label": "Radio Buttons",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "options": { "type": "array", "default": [] }
+        }
+      },
+      {
+        "value": "check",
+        "label": "Checkbox",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "options": { "type": "array", "default": [] }
+        }
+      },
+      {
+        "value": "tel",
+        "label": "Telephone Input",
+        "variants": [
+          { "value": "tel_normal", "label": "Normal Telephone" },
+          {
+            "value": "tel_with_country",
+            "label": "Telephone with Country Code"
+          }
+        ],
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "pattern": { "type": "text", "default": "^[0-9]{10}$" }
+        }
+      },
+      {
+        "value": "password",
+        "label": "Password Input",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "minLength": { "type": "number", "default": 8 },
+          "requireNumbers": { "type": "boolean", "default": true },
+          "requireSpecialChars": { "type": "boolean", "default": true },
+          "requireUppercase": { "type": "boolean", "default": true },
+          "requireLowercase": { "type": "boolean", "default": true }
+        }
+      },
+      {
+        "value": "file",
+        "label": "File Upload",
+        "categories": [
+          {
+            "value": "image",
+            "label": "Image",
+            "allowed_types": ["png", "jpg", "jpeg", "gif"]
+          },
+          {
+            "value": "document",
+            "label": "Document",
+            "allowed_types": ["pdf", "docx", "xlsx", "csv"]
+          }
+        ],
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "allowed_types": {
+            "type": "array",
+            "default": ["png", "jpg", "pdf"]
+          },
+          "max_file_size": { "type": "number", "default": 5 } // In MB
+        }
+      },
+      {
+        "value": "textarea",
+        "label": "Text Area",
+        "validations": {
+          "required": { "type": "boolean", "default": false },
+          "minLength": { "type": "number", "default": null },
+          "maxLength": { "type": "number", "default": null }
+        }
+      },
+      {
+        "value": "hidden",
+        "label": "Hidden Input",
+        "validations": {
+          "required": { "type": "boolean", "default": false }
+        }
+      },
+      {
+        "value": "add_more",
+        "label": "Add More",
+        "description": "Add multiple instances of a field (e.g., co-author names, affiliations).",
+        "validations": {
+          "required": { "type": "boolean", "default": false }
+        }
+      }
+    ],
+    "conditional_logic": {
+      "actions": ["show", "hide", "enable", "disable"],
+      "operators": [
+        "equals",
+        "not_equals",
+        "contains",
+        "starts_with",
+        "ends_with"
+      ]
+    }
+  },
+  "table_settings": {
+    "pagination": { "type": "boolean", "default": true },
+    "search": { "type": "boolean", "default": true },
+    "filters": {
+      "enabled": { "type": "boolean", "default": true },
+      "types": [
+        { "value": "text", "label": "Text Filter" },
+        { "value": "number", "label": "Number Filter" },
+        { "value": "date", "label": "Date Filter" },
+        { "value": "select", "label": "Dropdown Filter" }
+      ]
+    },
+    "actions": {
+      "view": { "type": "boolean", "default": true },
+      "edit": { "type": "boolean", "default": true },
+      "delete": { "type": "boolean", "default": true },
+      "toggle": { "type": "boolean", "default": true }
+    },
+    "export": {
+      "csv": { "type": "boolean", "default": true },
+      "excel": { "type": "boolean", "default": true },
+      "pdf": { "type": "boolean", "default": true }
+    }
+  },
+
+  "form_config1": {
+    "title": "Form Title",
+    "description": "Form Description",
+    "table_name": "table_name_in_database",
+    "form_type": "modal form", // Selected from form_options.form_types
+    "multi_step": false, // Derived from the selected form type
+    "steps": [
+      // Only applicable if multi_step is true
+      {
+        "step": 1,
+        "step_title": "Step 1: Personal Information",
+        "fields": [
+          {
+            "label": "Name",
+            "name": "name",
+            "type": "text",
+            "placeholder": "Enter your name",
+            "validations": {
+              "required": true,
+              "minLength": 2,
+              "maxLength": 50
+            }
+          },
+          {
+            "label": "Email",
+            "name": "email",
+            "type": "email",
+            "placeholder": "Enter your email",
+            "validations": {
+              "required": true,
+              "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+            }
+          }
+        ]
+      }
+    ],
+    "fields": [
+      // Only applicable if multi_step is false
+      {
+        "label": "Field Label",
+        "name": "field_name_in_database",
+        "type": "text", // Selected from form_options.field_types
+        "placeholder": "Enter value",
+        "default_value": "",
+        "validations": {
+          "required": false,
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "note": {
+          "required": false,
+          "displayNote": "Additional information about the field"
+        },
+        "display_column": true,
+        "sortable": true,
+        "filterable": true,
+        "conditional": {
+          "field": "dependent_field_name",
+          "value": "specific_value",
+          "action": "show"
+        },
+        "options": [
+          { "label": "Option 1", "value": "1" },
+          { "label": "Option 2", "value": "2" }
+        ],
+        "file_settings": {
+          "allowed_types": ["png", "jpg", "pdf"],
+          "max_file_size": 5
+        }
+      }
+    ]
+  },
+  "form_config2": {
+    "title": "Form Title",
+    "description": "Form Description",
+    "table_name": "table_name_in_database",
+    "form_type": "newpage", // Selected from form_options.form_types
+    "multi_step": false,
+    "fields": [
+      {
+        "label": "Author Name",
+        "name": "author_name",
+        "type": "text",
+        "placeholder": "Enter author name",
+        "validations": {
+          "required": true,
+          "minLength": 2,
+          "maxLength": 50
+        }
+      },
+      {
+        "label": "Co-Author Details",
+        "name": "co_author_details",
+        "type": "add_more", // Add More field type
+        "fields": [
+          {
+            "label": "Co-Author Name",
+            "name": "co_author_name",
+            "type": "text",
+            "placeholder": "Enter co-author name",
+            "validations": {
+              "required": true,
+              "minLength": 2,
+              "maxLength": 50
+            }
+          },
+          {
+            "label": "Affiliation",
+            "name": "affiliation",
+            "type": "text",
+            "placeholder": "Enter affiliation",
+            "validations": {
+              "required": true
+            }
+          }
+        ],
+        "max_instances": 5 // Maximum number of instances allowed
+      }
+    ],
+    "conditional_logic_rules": [
+      {
+        "field": "employment_status", // Field to watch
+        "operator": "equals", // Condition operator
+        "value": "employed", // Value to compare
+        "action": "show", // Action to perform
+        "target_field": "company_name" // Field to show/hide/enable/disable
+      }
+    ],
+    "table_settings": {
+      "pagination": true,
+      "search": true,
+      "filters": {
+        "enabled": true,
+        "types": [
+          { "value": "text", "label": "Text Filter" },
+          { "value": "number", "label": "Number Filter" },
+          { "value": "date", "label": "Date Filter" },
+          { "value": "select", "label": "Dropdown Filter" }
+        ]
+      },
+      "actions": {
+        "view": true,
+        "edit": true,
+        "delete": true,
+        "toggle": true
+      },
+      "export": {
+        "csv": true,
+        "excel": true,
+        "pdf": true
+      }
+    }
+  }
+}
