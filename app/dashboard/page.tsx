@@ -6,8 +6,13 @@ import { useEffect, useState } from "react";
 import tabledata from "./dashboard_settings.json";
 import DynamicTable from "@/components/DynamicTable copy";
 import tableconfig from "@/public/tableconfig.json";
+import config1 from "@/public/newtableconfig.json";
+import config2 from "@/public/vijaytable.json";
 import DynamicTable12 from "@/components/NewDynamic";
 import { Button } from "@mui/material";
+import DynamicF from "@/components/Tablef";
+import DynamicTableFuncopy from "@/components/Tablef copy";
+import DynamicTableFun2 from "../../components/Tablef copy";
 // import { TableConfig } from "@/types"; // Assuming you have a type for tableConfig
 
 // {
@@ -98,6 +103,27 @@ export default function Dashboard() {
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>Error: {error}</p>;
 
+  const search = "vi"; // Assign search value dynamically
+
+  const filters = [
+    {
+      field: "feature_name",
+      value: "emp",
+      search_type: "exact",
+    },
+    ...(search
+      ? [
+          {
+            field: "feature_data.record_data.record_value_text",
+            value: `*${search}*`,
+            search_type: "wildcard",
+          },
+        ]
+      : []),
+  ];
+
+  console.log("config1", config2?.table_config);
+
   return (
     <div className="p-4">
       {/* <Button variant="contained" onClick={() => fetchData()}>
@@ -111,7 +137,12 @@ export default function Dashboard() {
       {/* <ReusableTable config={tabledata} /> */}
 
       {/* <DynamicTable tableConfig={tableconfig?.table_config}></DynamicTable> */}
-      <DynamicTable12 tableconfig={tableconfig?.table_config}></DynamicTable12>
+      {/* <DynamicTable12 tableconfig={config2?.table_config}></DynamicTable12> */}
+      {/* <DynamicF tableconfig={config2?.table_config}></DynamicF> */}
+      {/* <DynamicTableFuncopy
+        tableconfig={config2?.table_config}
+      ></DynamicTableFuncopy> */}
+      <DynamicTableFun2 tableconfig={config2?.table_config}></DynamicTableFun2>
       {/* <DynamicTable></DynamicTable> */}
     </div>
   );

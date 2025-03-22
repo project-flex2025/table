@@ -376,6 +376,7 @@ import { useEffect, useState } from "react";
 import AddUserDialog from "./AddUserDilog";
 import DownloadCSV from "./DownloadCSV";
 import EditDialog from "./EditDilog";
+import ExportXLSX from "./DownloadCSV";
 
 interface TableColumn {
   key: string;
@@ -423,7 +424,7 @@ interface TableRow {
   created_at: string;
 }
 
-export default function DynamicTable12(tableconfig: any) {
+export default function DynamicTable12({ tableconfig, config1 }: any) {
   const [currentPage, setCurrentPage] = useState(1);
   const [config, setConfig] = useState<TableConfig | null>(null);
   const [data, setData] = useState<TableRow[]>([]);
@@ -436,10 +437,8 @@ export default function DynamicTable12(tableconfig: any) {
   );
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [totalCount, setTotalCount] = useState(null);
-
-  console.log(data, "data");
-
-  console.log(tableconfig?.tableconfig?.downloadRange, "tableconfig...");
+  const [search, setSearch] = useState("");
+  const [searchDepartment, setSearchDepartment] = useState("");
 
   const fetchData = async () => {
     const response = await fetch("api/search", {
@@ -451,14 +450,39 @@ export default function DynamicTable12(tableconfig: any) {
         conditions: [
           {
             field: "feature_name",
-            value: "employees",
+            value: "emp",
             search_type: "exact",
           },
-          ...Object.entries(filters).map(([key, value]) => ({
-            field: "feature_data.record_data.record_value_text",
-            value,
-            search_type: "exact",
-          })),
+        ],
+        combination_type: "and",
+        page: currentPage,
+        limit: pageSize,
+        dataset: "feature_data",
+        app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return response.json();
+  };
+
+  const fetchData1 = async (search: any, searchDepartment: any) => {
+    const response = await fetch("api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        conditions: [
+          { field: "feature_name", value: "emp", search_type: "exact" },
+          {
+            field: "more_data.wild_search",
+            value: `*${
+              search.toLowerCase() + "*" + searchDepartment.toLowerCase()
+            }*`,
+            search_type: "wildcard",
+          },
         ],
         combination_type: "and",
         page: currentPage,
@@ -477,8 +501,6 @@ export default function DynamicTable12(tableconfig: any) {
     const fetchTableData = async () => {
       try {
         const res = await fetchData();
-        console.log(res, "api response for empty useEffect..");
-
         setData(res.data);
         setTotalCount(res?.total_results);
         setLoading(false);
@@ -501,10 +523,28 @@ export default function DynamicTable12(tableconfig: any) {
   // }, []);
 
   useEffect(() => {
-    fetchData()
+    fetchData1(search, searchDepartment)
       .then((res) => setData(res.data))
       .catch(console.error);
-  }, [currentPage, pageSize, filters]);
+  }, [currentPage, pageSize]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchData1(search, searchDepartment)
+      .then((res) => setData(res.data))
+      .catch(console.error);
+  }, [search, searchDepartment]);
+
+  useEffect(() => {
+    // fun();
+    data?.map((row: any, index: number) => (
+      <TableRow key={index} hover sx={{ padding: 0 }}>
+        {tableconfig?.columns?.map((col: any) => {
+          console.log(row`${col?.value}`, "fun function");
+        })}
+      </TableRow>
+    ));
+  }, []);
 
   if (loading) return <p>Loading...</p>;
 
@@ -529,9 +569,38 @@ export default function DynamicTable12(tableconfig: any) {
   };
 
   const handleNewPage = (newPage: number) => {
-    console.log(newPage, "new page...");
+    console.log(newPage, "new page");
+
     setCurrentPage(newPage + 1);
   };
+
+  const handleChangeRowsPerPage = (e: any) => {
+    setPageSize(e.target.value);
+  };
+
+  // const fun = () => {
+  //   {
+  //     data?.map((row: any, index: number) => (
+  //       <TableRow key={index} hover sx={{ padding: 0 }}>
+  //         {tableconfig?.columns?.map((col: any) => {
+  //           console.log(row`${col?.value}`, "fun function");
+  //         })}
+  //       </TableRow>
+  //     ));
+  //   }
+  // };
+  // useEffect(() => {
+  //   // fun();
+  //   data?.map((row: any, index: number) => (
+  //     <TableRow key={index} hover sx={{ padding: 0 }}>
+  //       {tableconfig?.columns?.map((col: any) => {
+  //         console.log(row`${col?.value}`, "fun function");
+  //       })}
+  //     </TableRow>
+  //   ));
+  // }, []);
+
+  console.log(data, config1, tableconfig?.columns, "data and config1");
 
   return (
     <Paper sx={{ padding: "8px 4px 0px 12px", boxShadow: 3 }}>
@@ -539,9 +608,9 @@ export default function DynamicTable12(tableconfig: any) {
         {config?.table_name ?? "Table"}
       </Typography>
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
-        {tableconfig?.tableconfig?.columns
-          ?.filter((col:any) => col.filterable)
-          ?.map((col:any) => (
+        {/* {tableconfig?.columns
+          ?.filter((col: any) => col.filterable)
+          ?.map((col: any) => (
             <FormControl key={col.key} sx={{ minWidth: 200 }}>
               {col.filter_type === "search" ? (
                 <TextField
@@ -566,7 +635,7 @@ export default function DynamicTable12(tableconfig: any) {
                     label={col.label}
                   >
                     <MenuItem value="">All</MenuItem>
-                    {col.options?.map((option:any) => (
+                    {col.options?.map((option: any) => (
                       <MenuItem key={option} value={option}>
                         {option}
                       </MenuItem>
@@ -575,23 +644,51 @@ export default function DynamicTable12(tableconfig: any) {
                 </FormControl>
               ) : null}
             </FormControl>
-          ))}
+          ))} */}
+        <FormControl sx={{ minWidth: 200 }}>
+          <TextField
+            label="Search Name"
+            value={search || ""}
+            size="small"
+            onChange={(e) => setSearch(e.target.value)}
+            variant="outlined"
+          />
+        </FormControl>
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Sort by Department</InputLabel>
+          <Select
+            size="small"
+            value={searchDepartment || ""}
+            onChange={(e) => setSearchDepartment(e.target.value)}
+            label="Sort by Department"
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="HR">HR</MenuItem>
+            <MenuItem value="IT">IT</MenuItem>
+            <MenuItem value="Finance">Finance</MenuItem>
+          </Select>
+        </FormControl>
 
-        <DownloadCSV
+        {/* <DownloadCSV
           pageSize={pageSize}
           tableData={data}
           downloadrange={tableconfig?.tableconfig?.downloadRange}
           totalRecords={totalCount}
-        ></DownloadCSV>
+        ></DownloadCSV> */}
+        <ExportXLSX
+          tableData={data}
+          tableConfig={tableconfig}
+          total_records={totalCount}
+        ></ExportXLSX>
       </Box>
 
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              {tableconfig?.tableconfig?.columns?.map((col: any) => (
+              {tableconfig?.columns?.map((col: any) => (
                 <TableCell
-                  key={col.key}
+                  key={col.label}
                   sx={{ fontWeight: "bold", bgcolor: "#f5f5f5" }}
                 >
                   {col.label}
@@ -599,47 +696,43 @@ export default function DynamicTable12(tableconfig: any) {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {data?.map((row: any, index: number) => {
-              // Transform feature_data.record_data into an object for easy access
-              const transformedData = row.feature_data.record_data.reduce(
-                (acc: any, field: any) => {
-                  acc[field.record_label.toLowerCase()] =
-                    field.record_value_text;
-                  return acc;
-                },
-                {}
-              );
 
-              return (
-                <TableRow key={index} hover sx={{ padding: 0 }}>
-                  {tableconfig?.tableconfig?.columns?.map((col: any) => (
-                    <TableCell key={col.key} sx={{ padding: 0.2 }}>
-                      {col.key === "record_id" ? (
-                        row?.record_id // Using record_id as the ID
-                      ) : col.key === "status" ? (
-                        row.record_status // Using record_status for status
-                      ) : col.key == "record_status" ? (
-                        row.record_status
-                      ) : col.key === "actions" ? (
-                        <Box>
-                          <IconButton onClick={() => handleEditClick(row)}>
-                            <EditIcon sx={{ color: "blue" }} />
-                          </IconButton>
-                          <IconButton
-                            onClick={() => handleDelete(row.record_id)}
-                          >
-                            <DeleteIcon sx={{ color: "red" }} />
-                          </IconButton>
-                        </Box>
-                      ) : (
-                        transformedData[col.key] || "" // Fetching values from transformed data
-                      )}
+          <TableBody>
+            {data?.map((row: any, index: number) => (
+              <TableRow key={index} hover sx={{ padding: 0 }}>
+                {tableconfig?.columns?.map((col: any) => {
+                  let cellValue = "";
+
+                  const recordData1 = row`${col?.value}`;
+
+                  console.log(recordData1, "recorddata1");
+
+                  if (col?.value?.startsWith("feature_data.record_data")) {
+                    const recordData = row?.feature_data?.record_data?.find(
+                      (item: any) => item.record_label === col.label
+                    );
+
+                    if (recordData) {
+                      cellValue =
+                        recordData.record_value ??
+                        recordData.record_value_date ??
+                        recordData.record_value_number ??
+                        "";
+                    }
+                  } else if (col?.value?.startsWith("more_data")) {
+                    cellValue = row?.more_data?.wild_search;
+                  } else {
+                    cellValue = row?.[col.value] ?? "";
+                  }
+
+                  return (
+                    <TableCell key={col.label} sx={{ padding: 0.2 }}>
+                      {cellValue}
                     </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
+                  );
+                })}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -650,6 +743,7 @@ export default function DynamicTable12(tableconfig: any) {
         page={currentPage - 1}
         onPageChange={(_, newPage) => handleNewPage(newPage)}
         rowsPerPage={pageSize}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );
