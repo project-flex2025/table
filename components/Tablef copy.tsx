@@ -93,7 +93,7 @@ const DynamicTableFun2 = (config: any) => {
       }
     }
 
-    return value ?? "-"; // Return the value or fallback
+    return value ?? "-"; // Return the value or fallback.
   };
 
   return (

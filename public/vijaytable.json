@@ -98,7 +98,7 @@
         "filter_type": "search"
       },
       {
-        "label": "More Data 2",
+        "label": "More Data_2",
         "value_path": "more_data.wild_search2",
         "type": "text",
         "sortable": true,
