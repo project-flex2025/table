@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 import DynamicF from "@/components/Tablef";
 import DynamicTableFuncopy from "@/components/Tablef copy";
 import DynamicTableFun2 from "../../components/Tablef copy";
+import DynamicTableFun123 from "@/components/Tablef copy 2";
 // import { TableConfig } from "@/types"; // Assuming you have a type for tableConfig
 
 // {
@@ -143,6 +144,9 @@ export default function Dashboard() {
         tableconfig={config2?.table_config}
       ></DynamicTableFuncopy> */}
       <DynamicTableFun2 tableconfig={config2?.table_config}></DynamicTableFun2>
+      {/* <DynamicTableFun123
+        tableconfig={config2?.table_config}
+      ></DynamicTableFun123> */}
       {/* <DynamicTable></DynamicTable> */}
     </div>
   );
