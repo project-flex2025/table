@@ -106,6 +106,22 @@
         "filter_type": "search"
       },
       {
+        "label": "More Data_3",
+        "value_path": "more_data.wild_search3",
+        "type": "text",
+        "sortable": true,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
+        "label": "More Data_4",
+        "value_path": "more_data.wild_search4",
+        "type": "text",
+        "sortable": true,
+        "filterable": true,
+        "filter_type": "search"
+      },
+      {
         "label": "Actions",
         "type": "actions",
         "sortable": false,
