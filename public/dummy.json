@@ -1,0 +1,63 @@
+{
+  "record_id": "emp_rec_1742976006267",
+  "feature_name": "emp2",
+  "added_by": "flex_admin",
+  "record_status": "active",
+  "created_on_date": "2025-03-26",
+  "feature_data": {
+    "record_data": [
+      {
+        "record_label": "User Status",
+        "record_value": "active",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "EMP ID",
+        "record_value": "EMPT1",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "Full Name",
+        "record_value": "vignesh",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "Email Address",
+        "record_value": "vignesh@gmail.com",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "Phone Number",
+        "record_value": "7995454161",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "DOJ",
+        "record_value_date": "2025-03-26",
+        "record_type": "type_date"
+      },
+      {
+        "record_label": "Salary",
+        "record_value": "30",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "Role",
+        "record_value": "HR Manager",
+        "record_type": "type_text"
+      },
+      {
+        "record_label": "Department",
+        "record_value": "HR",
+        "record_type": "type_text"
+      }
+    ]
+  },
+  "more_data": [
+    {
+      "wild_search": "active EMPT1 vignesh vignesh@gmail.com 7995454161 2025-03-26 30 HR Manager HR"
+    }
+  ],
+  "dataset": "feature_data",
+  "app_secret": "38475203487kwsdjfvb1023897yfwbhekrfj",
+}

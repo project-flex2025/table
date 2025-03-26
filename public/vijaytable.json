@@ -98,14 +98,6 @@
         "filter_type": "search"
       },
       {
-        "label": "More Data2",
-        "value_path": "more_data.wild_search",
-        "type": "text",
-        "sortable": true,
-        "filterable": true,
-        "filter_type": "search"
-      },
-      {
         "label": "Actions",
         "type": "actions",
         "sortable": false,

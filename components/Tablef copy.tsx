@@ -767,6 +767,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
+  Button,
   CircularProgress,
   FormControl,
   IconButton,
@@ -786,13 +787,16 @@ import { useEffect, useState, useCallback } from "react";
 import ExportXLSX from "./DownloadCSV";
 import AddUserDialog from "./AddUserDilog";
 import EditUserDialogt1 from "./AddUserDilog copy";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DynamicForm from "./AddUserDilog";
+import ViewMoreDilog from "./ViewMoreDilog";
 
 const DynamicTableFun2 = (config: any) => {
   interface RowData {
     record_id: number;
     [key: string]: any; // Adjust this to match the structure of your row data
   }
-  
+
   const [data, setData] = useState<RowData[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -801,6 +805,9 @@ const DynamicTableFun2 = (config: any) => {
   const [searchDepartment, setSearchDepartment] = useState("");
   const [editRow, setEditRow] = useState<any>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [mode, setMode] = useState<"edit" | "add">("edit");
+  const [viewMoreOpen, setViewMoreOpen] = useState(false);
+  const [selectedRecordId, setSelectedRecordId] = useState<number | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -898,8 +905,19 @@ const DynamicTableFun2 = (config: any) => {
     // console.log("Delete ID:", id);
   };
 
+  const handleView = (id: number) => {
+    console.log("view id", id);
+    setSelectedRecordId(id);
+    setViewMoreOpen(true);
+  };
+
   const handleClose = () => {
     setIsEditOpen(false);
+  };
+
+  const handleNewUser = () => {
+    setIsEditOpen(true);
+    setMode("add");
   };
 
   return (
@@ -913,7 +931,7 @@ const DynamicTableFun2 = (config: any) => {
             label="Search Name"
             value={search}
             size="small"
-            onChange={(e) => setSearch(e.target.value)} // ✅ Triggers API call with latest search
+            onChange={(e) => setSearch(e.target.value)} 
             variant="outlined"
           />
         </FormControl>
@@ -949,6 +967,7 @@ const DynamicTableFun2 = (config: any) => {
           tableConfig={config?.tableconfig}
           total_records={totalCount}
         ></ExportXLSX>
+        <Button onClick={handleNewUser}>Add User</Button>
       </Box>
 
       <TableContainer>
@@ -986,6 +1005,11 @@ const DynamicTableFun2 = (config: any) => {
                             <EditIcon sx={{ color: "blue" }} />
                           </IconButton>
                           <IconButton
+                            onClick={() => handleView(row?.record_id ?? "")}
+                          >
+                            <VisibilityIcon sx={{ color: "blue" }} />
+                          </IconButton>
+                          <IconButton
                             onClick={() => handleDelete(row?.record_id ?? "")}
                           >
                             <DeleteIcon sx={{ color: "red" }} />
@@ -1008,12 +1032,25 @@ const DynamicTableFun2 = (config: any) => {
         recordId={editRow?.record_id}
         tableConfig={config?.tableconfig}
       ></AddUserDialog> */}
-      <EditUserDialogt1
+      {/* <EditUserDialogt1
         open={isEditOpen}
         onClose={handleClose}
         recordId={editRow?.record_id}
         tableConfig={config?.tableconfig}
-      ></EditUserDialogt1>
+      ></EditUserDialogt1> */}
+      <DynamicForm
+        open={isEditOpen}
+        onClose={handleClose}
+        mode={mode}
+        recordId={editRow?.record_id}
+        tableConfig={config?.tableconfig}
+      />
+      <ViewMoreDilog
+        open={viewMoreOpen}
+        onClose={() => setViewMoreOpen(false)}
+        recordId={String(selectedRecordId || "")}
+        tableConfig={config?.tableconfig}
+      />
     </Box>
   );
 };
