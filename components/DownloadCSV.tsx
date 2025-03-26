@@ -343,7 +343,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 
 async function fetchAllData(downloadformatte: string, colums: []) {
   const formData = new FormData();
@@ -404,7 +404,7 @@ const ExportXLSX = ({ tableData, tableConfig, total_records }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [data, setData] = useState([]);
 
-  console.log(data, "data in export xlsx", extractColumnLabels(tableConfig));
+  // console.log(data, "data in export xlsx", extractColumnLabels(tableConfig));
 
   const fetchData = async () => {
     const response = await fetch("api/search", {
@@ -690,23 +690,27 @@ const ExportXLSX = ({ tableData, tableConfig, total_records }: any) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleCol = () => {
-    console.log(extractColumnLabels(tableConfig), "columns");
-  };
+  // const handleCol = () => {
+  //   console.log(extractColumnLabels(tableConfig), "columns");
+  // };
 
   return (
     <div>
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          gap: "30px",
+          flexDirection: "column",
           padding: "0px 14px 4px 14px",
+          border: "1px solid black",
+          borderRadius: "12px",
         }}
       >
-        <i className="fa-solid fa-file-excel" onClick={handleXslx}></i>
-        <i className="fa-solid fa-file-csv" onClick={handleCSV}></i>
-        <i className="fa-solid fa-file-pdf" onClick={handlePDF}></i>
+        Download As
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
+          <i className="fa-solid fa-file-excel" onClick={handleXslx}></i>
+          <i className="fa-solid fa-file-csv" onClick={handleCSV}></i>
+          <i className="fa-solid fa-file-pdf" onClick={handlePDF}></i>
+        </Box>
         <Menu
           id="menu-appbar"
           anchorEl={anchorEl}
@@ -726,7 +730,7 @@ const ExportXLSX = ({ tableData, tableConfig, total_records }: any) => {
           <MenuItem onClick={handleAllpages}>All Pages</MenuItem>
         </Menu>
       </div>
-      <Button onClick={() => handleCol()}>Download</Button>
+      {/* <Button onClick={() => handleCol()}>Download</Button> */}
     </div>
   );
 };

@@ -450,7 +450,7 @@ export default function DynamicTable12({ tableconfig, config1 }: any) {
         conditions: [
           {
             field: "feature_name",
-            value: "emp",
+            value: "emp2",
             search_type: "exact",
           },
         ],

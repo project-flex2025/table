@@ -541,54 +541,308 @@
 
 // export default DynamicTableFun2;
 
-"use client";
+// "use client";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+// import {
+//   Box,
+//   CircularProgress,
+//   FormControl,
+//   InputLabel,
+//   MenuItem,
+//   Select,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableContainer,
+//   TableHead,
+//   TableRow,
+//   TextField,
+//   Typography,
+// } from "@mui/material";
+// import { useEffect, useState, useCallback } from "react";
 
+// const DynamicTableFun2 = (config: any) => {
+//   const [data, setData] = useState([]);
+//   const [totalCount, setTotalCount] = useState(0);
+//   const [loading, setLoading] = useState(true);
+//   const [filters, setFilters] = useState<Record<string, string>>({});
+//   const [search, setSearch] = useState("");
+//   const [searchDepartment, setSearchDepartment] = useState("");
+
+//   const fetchData = useCallback(async () => {
+//     try {
+//       const response = await fetch("/api/search", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           conditions: [
+//             { field: "feature_name", value: "emp2", search_type: "exact" },
+//             {
+//               field: "more_data.wild_search",
+//               value: `*${
+//                 search.toLowerCase().trim() +
+//                 "*" +
+//                 searchDepartment.toLowerCase()
+//               }*`,
+//               search_type: "wildcard",
+//             },
+//           ],
+//           combination_type: "and",
+//           page: 1,
+//           limit: 100,
+//           sort: [
+//             {
+//               record_id: "asc",
+//             },
+//           ],
+//           dataset: "feature_data",
+//           app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+//         }),
+//       });
+//       if (!response.ok) throw new Error("Failed to fetch data");
+//       return response.json();
+//     } catch (error) {
+//       console.error("Error fetching data:", error);
+//       return { data: [], total_results: 0 };
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchTableData = async () => {
+//       setLoading(true);
+//       const res = await fetchData();
+//       setData(res.data || []);
+//       setTotalCount(res.total_results || 0);
+//       setLoading(false);
+//     };
+//     fetchTableData();
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchTableData = async () => {
+//       setLoading(true);
+//       const res = await fetchData();
+//       setData(res.data || []);
+//       setTotalCount(res.total_results || 0);
+//       setLoading(false);
+//     };
+//     fetchTableData();
+//   }, [search, searchDepartment]);
+
+//   /**
+//    * Function to get the value dynamically based on value_path.
+//    * It navigates through objects and arrays as defined by the path.
+//    *
+//    *
+//    */
+
+//   console.log(search, "search searchdepartment", searchDepartment);
+
+//   const getValueByPath = (obj: any, path: string): any => {
+//     if (!path || typeof path !== "string") return null;
+//     const keys = path.split(".");
+//     let value = obj;
+
+//     for (let i = 0; i < keys.length; i++) {
+//       const key = keys[i];
+
+//       if (Array.isArray(value)) {
+//         // Optimize lookup by stopping at the first match
+//         const foundItem = value.find((item) => item.record_label === key);
+//         if (foundItem) {
+//           value =
+//             foundItem.record_value ??
+//             foundItem.record_value_text ??
+//             foundItem.record_value_date ??
+//             foundItem.record_value_number;
+//         } else {
+//           // If no record_label match, check if key exists directly in any object
+//           value = value.find((item) => item[key])?.[key];
+//         }
+//       } else if (typeof value === "object" && value !== null) {
+//         value = value[key];
+//       } else {
+//         return "-"; // Default fallback if value is not found
+//       }
+//     }
+
+//     return value ?? "-"; // Return the value or fallback.
+//   };
+
+//   const handleFilterChange = (key: any, value: any) => {
+//     setFilters((prev) => ({ ...prev, [key]: value }));
+//   };
+
+//   return (
+//     <Box p={4}>
+//       <Typography variant="h5" fontWeight="bold" mb={2}>
+//         {config?.table_name ?? "Table"}
+//       </Typography>
+//       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+//         {config?.columns
+//           ?.filter((col: any) => col.filterable)
+//           .map((col: any) => (
+//             <FormControl key={col.key} sx={{ minWidth: 200 }}>
+//               <TextField
+//                 label={`Search ${col.label}`}
+//                 value={filters[col?.label] || ""}
+//                 size="small"
+//                 onChange={(e) => handleFilterChange(col.key, e.target.value)}
+//               />
+//             </FormControl>
+//           ))}
+//       </Box>
+//       <FormControl sx={{ minWidth: 200 }}>
+//         <TextField
+//           label="Search Name"
+//           value={search || ""}
+//           size="small"
+//           onChange={(e) => setSearch(e.target.value)}
+//           variant="outlined"
+//         />
+//       </FormControl>
+//       <FormControl sx={{ minWidth: 200 }}>
+//         <InputLabel>Sort by Department</InputLabel>
+//         <Select
+//           size="small"
+//           value={searchDepartment || ""}
+//           onChange={(e) => setSearchDepartment(e.target.value)}
+//           label="Sort by Department"
+//         >
+//           <MenuItem value="">All</MenuItem>
+//           <MenuItem value="HR">HR</MenuItem>
+//           <MenuItem value="IT">IT</MenuItem>
+//           <MenuItem value="Finance">Finance</MenuItem>
+//         </Select>
+//       </FormControl>
+//       <TableContainer>
+//         <Table>
+//           <TableHead>
+//             <TableRow>
+//               {config?.tableconfig?.columns.map((col: any) => (
+//                 <TableCell
+//                   key={col.key}
+//                   sx={{ fontWeight: "bold", bgcolor: "#f5f5f5" }}
+//                 >
+//                   {col.label}
+//                 </TableCell>
+//               ))}
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {loading ? (
+//               <TableRow>
+//                 <TableCell
+//                   colSpan={config?.tableconfig?.columns.length}
+//                   align="center"
+//                 >
+//                   <CircularProgress />
+//                 </TableCell>
+//               </TableRow>
+//             ) : (
+//               data.map((row, index) => (
+//                 <TableRow key={index}>
+//                   {config?.tableconfig?.columns.map((col: any) => (
+//                     <TableCell key={col.key}>
+//                       {getValueByPath(row, col.value_path)}
+//                     </TableCell>
+//                   ))}
+//                 </TableRow>
+//               ))
+//             )}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//     </Box>
+//   );
+// };
+
+// export default DynamicTableFun2;
+
+"use client";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   CircularProgress,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
+import ExportXLSX from "./DownloadCSV";
+import AddUserDialog from "./AddUserDilog";
+import EditUserDialogt1 from "./AddUserDilog copy";
 
 const DynamicTableFun2 = (config: any) => {
-  const [data, setData] = useState([]);
+  interface RowData {
+    record_id: number;
+    [key: string]: any; // Adjust this to match the structure of your row data
+  }
+  
+  const [data, setData] = useState<RowData[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const rowsPerPage = 10;
+  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [search, setSearch] = useState("");
+  const [searchDepartment, setSearchDepartment] = useState("");
+  const [editRow, setEditRow] = useState<any>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch("/api/search", {
+      const response = await fetch("/api/proxy", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-API-TYPE": "search",
         },
         body: JSON.stringify({
           conditions: [
             { field: "feature_name", value: "emp2", search_type: "exact" },
+            {
+              field: "more_data.wild_search",
+              value: `*${search
+                .toLowerCase()
+                .trim()}*${searchDepartment.toLowerCase()}*`,
+              search_type: "wildcard",
+            },
           ],
           combination_type: "and",
           page: 1,
-          limit: 2,
+          limit: 100,
+          sort: [{ record_id: "asc" }],
           dataset: "feature_data",
           app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
         }),
       });
+
       if (!response.ok) throw new Error("Failed to fetch data");
-      return response.json();
+
+      const jsonData = await response.json();
+      return {
+        data: jsonData.data ?? [],
+        total_results: jsonData.total_results ?? 0,
+      };
     } catch (error) {
       console.error("Error fetching data:", error);
       return { data: [], total_results: 0 };
     }
-  }, []);
+  }, [search, searchDepartment]); // ✅ Added dependencies
 
   useEffect(() => {
     const fetchTableData = async () => {
@@ -599,32 +853,104 @@ const DynamicTableFun2 = (config: any) => {
       setLoading(false);
     };
     fetchTableData();
-  }, [fetchData]);
+  }, [fetchData]); // ✅ Ensures latest values are used
 
   const getValueByPath = (obj: any, path: string): any => {
     if (!path || typeof path !== "string") return null;
     const keys = path.split(".");
     let value = obj;
 
-    console.log(keys, "keys", value);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
 
-    for (const key of keys) {
       if (Array.isArray(value)) {
-        value =
-          value.find((item) => item.record_label === key)?.record_value ??
-          value.find((item) => item.record_label === key)?.record_value_date ??
-          value.find((item) => item.record_label === key)
-            ?.record_value_number ??
-          "-";
+        const foundItem = value.find((item) => item.record_label === key);
+        if (foundItem) {
+          value =
+            foundItem.record_value ??
+            foundItem.record_value_text ??
+            foundItem.record_value_date ??
+            foundItem.record_value_number;
+        } else {
+          value = value.find((item) => item[key])?.[key];
+        }
+      } else if (typeof value === "object" && value !== null) {
+        value = value[key];
       } else {
-        value = value?.[key] ?? "-";
+        return "-";
       }
     }
-    return value;
+
+    return value ?? "-";
+  };
+
+  const handleFilterChange = (key: any, value: any) => {
+    // setFilters((prev) => ({ ...prev, [key]: value }));
+    setSearchDepartment(value);
+  };
+
+  const handleEditClick = (row: any) => {
+    setEditRow(row);
+    setIsEditOpen(true);
+  };
+
+  const handleDelete = (id: number) => {
+    // console.log("Delete ID:", id);
+  };
+
+  const handleClose = () => {
+    setIsEditOpen(false);
   };
 
   return (
     <Box p={4}>
+      <Typography variant="h5" fontWeight="bold" mb={2}>
+        {config?.table_name ?? "Table"}
+      </Typography>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+        <FormControl sx={{ minWidth: 200 }}>
+          <TextField
+            label="Search Name"
+            value={search}
+            size="small"
+            onChange={(e) => setSearch(e.target.value)} // ✅ Triggers API call with latest search
+            variant="outlined"
+          />
+        </FormControl>
+        {config?.tableconfig?.columns
+          ?.filter((col: any) => col.filterable)
+          ?.map((col: any) => (
+            <FormControl key={col.key}>
+              {col.filter_type === "dropdown" ? (
+                <FormControl
+                  size="small"
+                  variant="outlined"
+                  sx={{ minWidth: 200 }}
+                >
+                  <InputLabel>{col.label}</InputLabel>
+                  <Select
+                    value={searchDepartment || ""}
+                    onChange={(e) => setSearchDepartment(e.target.value)}
+                    label={col.label}
+                  >
+                    <MenuItem value="">All</MenuItem>
+                    {col.options?.map((option: any) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : null}
+            </FormControl>
+          ))}
+        <ExportXLSX
+          tableData={data}
+          tableConfig={config?.tableconfig}
+          total_records={totalCount}
+        ></ExportXLSX>
+      </Box>
+
       <TableContainer>
         <Table>
           <TableHead>
@@ -654,7 +980,20 @@ const DynamicTableFun2 = (config: any) => {
                 <TableRow key={index}>
                   {config?.tableconfig?.columns.map((col: any) => (
                     <TableCell key={col.key}>
-                      {getValueByPath(row, col.value_path)}
+                      {col.label == "Actions" ? (
+                        <Box>
+                          <IconButton onClick={() => handleEditClick(row)}>
+                            <EditIcon sx={{ color: "blue" }} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleDelete(row?.record_id ?? "")}
+                          >
+                            <DeleteIcon sx={{ color: "red" }} />
+                          </IconButton>
+                        </Box>
+                      ) : (
+                        getValueByPath(row, col.value_path)
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -663,6 +1002,18 @@ const DynamicTableFun2 = (config: any) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {/* <AddUserDialog
+        open={isEditOpen}
+        onClose={handleClose}
+        recordId={editRow?.record_id}
+        tableConfig={config?.tableconfig}
+      ></AddUserDialog> */}
+      <EditUserDialogt1
+        open={isEditOpen}
+        onClose={handleClose}
+        recordId={editRow?.record_id}
+        tableConfig={config?.tableconfig}
+      ></EditUserDialogt1>
     </Box>
   );
 };

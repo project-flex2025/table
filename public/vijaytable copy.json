@@ -1,80 +1,64 @@
 {
   "table_config": {
     "table_name": "Employee Management",
-    "api": {
-      "endpoint": "/api/emp",
-      "method": "GET",
-      "headers": {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer token_here"
-      }
-    },
+      "feature_name" : "emp2",
     "columns": [
       {
         "label": "User Status",
         "value_path": "record_status",
         "type": "text",
-        "sortable": true,
         "filterable": false
       },
       {
         "label": "EMP ID",
         "value_path": "feature_data.record_data.EMP ID",
         "type": "text",
-        "sortable": true,
         "filterable": false
       },
       {
         "label": "Full Name",
         "value_path": "feature_data.record_data.Full Name",
         "type": "text",
-        "sortable": true,
-        "filterable": true,
+        "filterable": false,
         "filter_type": "search"
       },
       {
         "label": "Email Address",
         "value_path": "feature_data.record_data.Email Address",
         "type": "text",
-        "sortable": false,
-        "filterable": true,
+        "filterable": false,
         "filter_type": "search"
       },
       {
         "label": "Phone Number",
         "value_path": "feature_data.record_data.Phone Number",
         "type": "text",
-        "sortable": false,
         "filterable": false
       },
       {
         "label": "DOJ",
         "value_path": "feature_data.record_data.DOJ",
         "type": "date",
-        "sortable": true,
-        "filterable": true,
+        "filterable": false,
         "filter_type": "date_range"
       },
       {
         "label": "Salary",
         "value_path": "feature_data.record_data.Salary",
         "type": "number",
-        "sortable": true,
         "filterable": false
       },
       {
         "label": "Role",
         "value_path": "feature_data.record_data.Role",
         "type": "text",
-        "sortable": false,
-        "filterable": true,
+        "filterable": false,
         "filter_type": "search"
       },
       {
         "label": "Department",
         "value_path": "feature_data.record_data.Department",
         "type": "dropdown",
-        "sortable": true,
         "filterable": true,
         "filter_type": "dropdown",
         "options": [
@@ -93,22 +77,33 @@
         "label": "More Data",
         "value_path": "more_data.wild_search",
         "type": "text",
-        "sortable": true,
-        "filterable": true,
+        "filterable": false,
         "filter_type": "search"
       },
       {
-        "label": "More Data2",
-        "value_path": "more_data.wild_search",
+        "label": "More Data_2",
+        "value_path": "more_data.wild_search2",
         "type": "text",
-        "sortable": true,
-        "filterable": true,
+        "filterable": false,
+        "filter_type": "search"
+      },
+      {
+        "label": "More Data_3",
+        "value_path": "more_data.wild_search3",
+        "type": "text",
+        "filterable": false,
+        "filter_type": "search"
+      },
+      {
+        "label": "More Data_4",
+        "value_path": "more_data.wild_search4",
+        "type": "text",
+        "filterable": false,
         "filter_type": "search"
       },
       {
         "label": "Actions",
         "type": "actions",
-        "sortable": false,
         "filterable": false,
         "actions": [
           {
@@ -128,8 +123,7 @@
     ],
     "pagination": {
       "enabled": true,
-      "page_size": 10,
-      "current_page": 1
+      "page_size": 10
     },
     "sorting": {
       "enabled": true,
@@ -175,3 +169,38 @@
     "downloadRange": 10
   }
 }
+
+// {
+//   "label": "More Data",
+//   "value_path": "more_data.wild_search",
+//   "type": "text",
+//   "sortable": true,
+//   "filterable": true,
+//   "filter_type": "search"
+// },
+
+
+      // {
+      //   "label": "More Data_2",
+      //   "value_path": "more_data.wild_search2",
+      //   "type": "text",
+      //   "sortable": true,
+      //   "filterable": true,
+      //   "filter_type": "search"
+      // },
+      // {
+      //   "label": "More Data_3",
+      //   "value_path": "more_data.wild_search3",
+      //   "type": "text",
+      //   "sortable": true,
+      //   "filterable": true,
+      //   "filter_type": "search"
+      // },
+      // {
+      //   "label": "More Data_4",
+      //   "value_path": "more_data.wild_search4",
+      //   "type": "text",
+      //   "sortable": true,
+      //   "filterable": true,
+      //   "filter_type": "search"
+      // },

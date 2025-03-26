@@ -31,53 +31,53 @@ import DynamicTableFun123 from "@/components/Tablef copy 2";
 //   "app_secret": "38475203487kwsdjfvb1023897yfwbhekrfj"
 //   }
 
-async function fetchData() {
-  const formData = new FormData();
+// async function fetchData() {
+//   const formData = new FormData();
 
-  const postJson = {
-    conditions: [
-      {
-        field: "feature_name",
-        value: "employees",
-        search_type: "exact",
-      },
-    ],
-    combination_type: "and",
-    page: 1,
-    limit: 100,
-    dataset: "feature_data",
-    app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
-  };
+//   const postJson = {
+//     conditions: [
+//       {
+//         field: "feature_name",
+//         value: "employees",
+//         search_type: "exact",
+//       },
+//     ],
+//     combination_type: "and",
+//     page: 1,
+//     limit: 100,
+//     dataset: "feature_data",
+//     app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+//   };
 
-  formData.append("post_json", JSON.stringify(postJson));
-  formData.append("download_type", "csv");
-  formData.append("user_id", "366");
+//   formData.append("post_json", JSON.stringify(postJson));
+//   formData.append("download_type", "csv");
+//   formData.append("user_id", "366");
 
-  try {
-    const response = await fetch("/api/aws_s3", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer YOUR_ACCESS_TOKEN", // If required
-        Accept: "application/json", // To accept JSON responses
-      },
-      body: formData,
-    });
+//   try {
+//     const response = await fetch("/api/aws_s3", {
+//       method: "POST",
+//       headers: {
+//         Authorization: "Bearer YOUR_ACCESS_TOKEN", // If required
+//         Accept: "application/json", // To accept JSON responses
+//       },
+//       body: formData,
+//     });
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    // Destructure `download_url`
-    const { download_url } = data;
+//     // Destructure `download_url`
+//     const { download_url } = data;
 
-    if (download_url) {
-      console.log("Download URL:", download_url);
-      window.location.href = download_url; // Automatically start download
-    } else {
-      console.error("Download URL not found in response", data);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
+//     if (download_url) {
+//       console.log("Download URL:", download_url);
+//       window.location.href = download_url; // Automatically start download
+//     } else {
+//       console.error("Download URL not found in response", data);
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// }
 
 // Call fetchData when needed, for example, on button click
 
@@ -89,41 +89,59 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   fetchData()
-  //     .then((res: any) => {
-  //       setData(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err: any) => {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/proxy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-API-TYPE": "search",
+        },
+        body: JSON.stringify({
+          conditions: [
+            { field: "feature_name", value: "emp2", search_type: "exact" },
+          ],
+          combination_type: "and",
+          page: 1,
+          limit: 100,
+          sort: [{ record_id: "asc" }],
+          dataset: "feature_data",
+          app_secret: "38475203487kwsdjfvb1023897yfwbhekrfj",
+        }),
+      });
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
+      if (!response.ok) throw new Error("Failed to fetch data");
 
-  const search = "vi"; // Assign search value dynamically
+      const jsonData = await response.json();
+      return jsonData;
+    } catch {}
+  };
 
-  const filters = [
-    {
-      field: "feature_name",
-      value: "emp",
-      search_type: "exact",
-    },
-    ...(search
-      ? [
-          {
-            field: "feature_data.record_data.record_value_text",
-            value: `*${search}*`,
-            search_type: "wildcard",
-          },
-        ]
-      : []),
-  ];
+  useEffect(() => {
+    const result = fetchData();
+  }, []);
 
-  console.log("config1", config2?.table_config);
+  // const search = "vi"; // Assign search value dynamically
+
+  // const filters = [
+  //   {
+  //     field: "feature_name",
+  //     value: "emp",
+  //     search_type: "exact",
+  //   },
+  //   ...(search
+  //     ? [
+  //         {
+  //           field: "feature_data.record_data.record_value_text",
+  //           value: `*${search}*`,
+  //           search_type: "wildcard",
+  //         },
+  //       ]
+  //     : []),
+  // ];
+
+  // console.log("config1", config2?.table_config);
 
   return (
     <div className="p-4">
@@ -136,7 +154,6 @@ export default function Dashboard() {
       {/* <CustomTable data={tabledata} setData={setTableData} /> */}
       {/* <CustomTable2  data={tabledata}></CustomTable2> */}
       {/* <ReusableTable config={tabledata} /> */}
-
       {/* <DynamicTable tableConfig={tableconfig?.table_config}></DynamicTable> */}
       {/* <DynamicTable12 tableconfig={config2?.table_config}></DynamicTable12> */}
       {/* <DynamicF tableconfig={config2?.table_config}></DynamicF> */}
